@@ -333,12 +333,11 @@ footer {
   .hero-etiqueta.abajo {
     left: 0.5rem;
   }
-}
-
-.contacto-invitacion,
-.contacto-datos {
-  padding: 2rem 1.5rem;
-}
-.btn-whatsapp {
-  font-size: 1rem;
+  .contacto-invitacion,
+  .contacto-datos {
+    padding: 2rem 1.5rem;
+  }
+  .btn-whatsapp {
+    font-size: 1rem;
+  }
 }
