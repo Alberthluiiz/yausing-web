@@ -1,0 +1,147 @@
+/* ===== COLORES DE YAUSIG CHURIKUNA (sacados del logo) ===== */
+:root {
+  --naranja: #c75e15;
+  --amarillo: #f59f16;
+  --rojo: #a71916;
+  --verde: #0c6f71;
+  --azul: #0b283a;
+  --tinta: #1e2040; /* morado oscuro de las letras del logo */
+  --crema: #fbf6ee;
+  --arena: #f3e9dc;
+}
+
+/* ===== BASE ===== */
+html {
+  scroll-behavior: smooth; /* baja despacio al hacer clic en el menú */
+  scroll-padding-top: 90px; /* para que el menú no tape los títulos */
+}
+
+body {
+  background-color: var(--crema);
+  color: var(--tinta);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.titulo {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+/* ===== MENÚ ===== */
+.menu {
+  background-color: rgba(251, 246, 238, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.menu .nav-link {
+  color: var(--tinta);
+  font-weight: 500;
+}
+
+.menu .nav-link:hover {
+  color: var(--rojo);
+}
+
+/* ===== FRANJA TEJIDA (colores del logo) ===== */
+.franja {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--naranja) 0 40px,
+    var(--amarillo) 40px 80px,
+    var(--verde) 80px 120px,
+    var(--rojo) 120px 160px,
+    var(--azul) 160px 200px
+  );
+}
+
+/* ===== UTILIDADES ===== */
+.etiqueta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde);
+}
+
+.text-rojo {
+  color: var(--rojo);
+}
+
+.btn-rojo {
+  background-color: var(--rojo);
+  color: #fff;
+}
+.btn-rojo:hover {
+  background-color: #8a1412;
+  color: #fff;
+}
+
+/* ===== PORTADA ===== */
+.hero-tarjeta {
+  position: relative;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;
+  border-radius: 50% 50% 1.5rem 1.5rem / 40% 40% 1.5rem 1.5rem;
+  background: linear-gradient(
+    to bottom,
+    var(--amarillo),
+    var(--naranja),
+    var(--rojo)
+  );
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-circulo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-circulo img {
+  width: 130px;
+}
+
+.hero-etiqueta {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+.hero-etiqueta small {
+  color: #6c757d;
+}
+.hero-etiqueta.arriba {
+  top: 3rem;
+  right: -1rem;
+}
+.hero-etiqueta.abajo {
+  bottom: 4rem;
+  left: -1rem;
+}
+
+/* ===== PIE DE PÁGINA ===== */
+footer {
+  background-color: var(--azul);
+  color: #fff;
+}
+
+/* ===== CELULAR ===== */
+@media (max-width: 576px) {
+  .hero-etiqueta.arriba {
+    right: 0.5rem;
+  }
+  .hero-etiqueta.abajo {
+    left: 0.5rem;
+  }
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yausig Churikuna · Ropa indígena</title>
+    <link rel="icon" href="img/yausig-icono.png" />
+
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Nuestros estilos (siempre después de Bootstrap) -->
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- ===== MENÚ ===== -->
+    <nav class="navbar navbar-expand-md sticky-top menu">
+      <div class="container">
+        <a class="navbar-brand" href="#inicio">
+          <img src="img/yausig-logo.png" alt="Yausig Churikuna" height="44" />
+        </a>
+
+        <!-- Botón hamburguesa: solo aparece en el celular -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#menuPrincipal"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto gap-md-3">
+            <li class="nav-item">
+              <a class="nav-link" href="#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#categorias">Categorías</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#ofertas">Ofertas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#nosotros">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contacto">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Franja decorativa con los colores del logo -->
+    <div class="franja"></div>
+
+    <!-- ===== CONTENIDO ===== -->
+    <main>
+      <!-- ===== PORTADA ===== -->
+      <section id="inicio" class="container py-5">
+        <div class="row align-items-center g-5 py-lg-5">
+          <!-- Columna izquierda: textos y botones -->
+          <div class="col-lg-6">
+            <p class="etiqueta">Ropa indígena · Hecha con orgullo</p>
+            <h1 class="titulo display-3 fw-bold">
+              Viste con <em class="text-rojo">orgullo</em>,<br />
+              vive tu cultura.
+            </h1>
+            <p class="lead text-secondary mt-4">
+              Prendas tradicionales, bordados y accesorios para toda la familia,
+              con la calidez de nuestra tierra.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <a href="#ofertas" class="btn btn-rojo rounded-pill px-4 py-2"
+                >Ver ofertas →</a
+              >
+              <a
+                href="#categorias"
+                class="btn btn-outline-dark rounded-pill px-4 py-2"
+                >Explorar categorías</a
+              >
+            </div>
+          </div>
+
+          <!-- Columna derecha: tarjeta con el icono -->
+          <div class="col-lg-6">
+            <div class="hero-tarjeta mx-auto">
+              <div class="hero-circulo">
+                <img
+                  src="img/yausig-icono.png"
+                  alt="Icono de Yausig Churikuna"
+                />
+              </div>
+
+              <div class="hero-etiqueta arriba">
+                <strong>🏷️ Hasta -30%</strong>
+                <small>En ofertas seleccionadas</small>
+              </div>
+              <div class="hero-etiqueta abajo">
+                <strong>✨ Nueva temporada</strong>
+                <small>Bordados recién llegados</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== PIE DE PÁGINA ===== -->
+    <div class="franja"></div>
+    <footer>
+      <div
+        class="container d-flex flex-wrap justify-content-between gap-2 py-4 small"
+      >
+        <span class="titulo fw-bold">Yausig Churikuna</span>
+        <span>© 2026 Yausig Churikuna · Todos los derechos reservados</span>
+      </div>
+    </footer>
+
+    <!-- JavaScript de Bootstrap (hace funcionar el menú hamburguesa) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
