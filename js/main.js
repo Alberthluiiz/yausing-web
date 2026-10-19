@@ -4,11 +4,65 @@ const WHATSAPP = "593961380728";
 
 // ===== LISTA DE OFERTAS =====
 // Para agregar, quitar o cambiar un producto, solo edita esta lista.
+// foto: nombre del archivo dentro de img/productos/
+// (si un producto no tiene foto, se muestra su icono)
 const ofertas = [
-  { nombre: "Blusa bordada", precio: 35.0, descuento: 25, icono: "👚" },
-  { nombre: "Anaco tradicional", precio: 40.0, descuento: 20, icono: "👗" },
-  { nombre: "Poncho de lana", precio: 60.0, descuento: 30, icono: "🧥" },
-  { nombre: "Fachalina", precio: 18.0, descuento: 15, icono: "🧣" },
+  {
+    nombre: "Blusa bordada",
+    precio: 35.0,
+    descuento: 25,
+    icono: "👚",
+    foto: "blusas.png",
+  },
+  {
+    nombre: "Anaco bordado",
+    precio: 40.0,
+    descuento: 20,
+    icono: "👗",
+    foto: "anacos.png",
+  },
+  {
+    nombre: "Poncho",
+    precio: 60.0,
+    descuento: 30,
+    icono: "🧥",
+    foto: "ponchos.png",
+  },
+  {
+    nombre: "Bayeta",
+    precio: 18.0,
+    descuento: 15,
+    icono: "🧣",
+    foto: "bayeta.png",
+  },
+  {
+    nombre: "Collar de mullos",
+    precio: 25.0,
+    descuento: 10,
+    icono: "📿",
+    foto: "collar.png",
+  },
+  {
+    nombre: "Alpargatas",
+    precio: 22.0,
+    descuento: 15,
+    icono: "👡",
+    foto: "alpargatas.png",
+  },
+  {
+    nombre: "Mochila tejida",
+    precio: 30.0,
+    descuento: 20,
+    icono: "🎒",
+    foto: "mochila.png",
+  },
+  {
+    nombre: "Saco de lana",
+    precio: 45.0,
+    descuento: 25,
+    icono: "🧶",
+    foto: "saco.png",
+  },
 ];
 
 // ===== CREAR UNA TARJETA =====
@@ -17,12 +71,18 @@ function crearTarjeta(oferta) {
   const precioFinal = oferta.precio * (1 - oferta.descuento / 100);
   const mensaje = encodeURIComponent(`Hola, me interesa: ${oferta.nombre}`);
 
+  // Si el producto tiene foto, la ponemos de fondo; si no, mostramos el icono
+  const fondo = oferta.foto
+    ? `style="background-image: url('img/productos/${oferta.foto}')"`
+    : "";
+  const icono = oferta.foto ? "" : oferta.icono;
+
   return `
     <div class="col">
       <div class="card oferta h-100 border-0 shadow-sm">
-        <div class="oferta-imagen">
+        <div class="oferta-imagen" ${fondo}>
           <span class="badge oferta-descuento">-${oferta.descuento}%</span>
-          ${oferta.icono}
+          ${icono}
         </div>
         <div class="card-body">
           <h3 class="h6 fw-semibold">${oferta.nombre}</h3>
