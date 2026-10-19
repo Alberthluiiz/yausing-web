@@ -236,6 +236,31 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* ===== CONTACTO ===== */
+.contacto {
+  background: linear-gradient(135deg, var(--rojo), var(--naranja));
+  color: #fff;
+}
+.etiqueta-clara {
+  color: var(--amarillo);
+}
+.contacto-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dato {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+}
+.dato-icono {
+  font-size: 1.75rem;
+}
+
 /* ===== PIE DE PÁGINA ===== */
 footer {
   background-color: var(--azul);

@@ -53,3 +53,15 @@ document.querySelectorAll("#menuPrincipal .nav-link").forEach((enlace) => {
     menu.hide();
   });
 });
+
+// ===== CONTACTO =====
+// Botón grande de WhatsApp con un mensaje ya escrito
+const mensajeContacto = encodeURIComponent(
+  "Hola, vi su página y quiero más información.",
+);
+document.getElementById("boton-whatsapp").href =
+  `https://wa.me/${WHATSAPP}?text=${mensajeContacto}`;
+
+// Muestra el número de forma bonita: +593 96 138 0728
+document.getElementById("telefono").textContent =
+  `+${WHATSAPP.slice(0, 3)} ${WHATSAPP.slice(3, 5)} ${WHATSAPP.slice(5, 8)} ${WHATSAPP.slice(8)}`;
