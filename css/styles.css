@@ -206,8 +206,34 @@ body {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
+  font-size: 0.75rem;
   background-color: var(--rojo);
   border-radius: 999px;
+}
+
+/* ===== NOSOTROS ===== */
+.nosotros-marco {
+  background-color: var(--arena);
+  border-radius: 2rem;
+  padding: 3rem;
+  text-align: center;
+  border-bottom: 8px solid var(--naranja);
+}
+.nosotros-marco img {
+  max-height: 340px;
+}
+.valor {
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--crema);
+  border-radius: 1rem;
+  border-top: 4px solid var(--verde);
+}
+.valor-icono {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
 }
 
 /* ===== PIE DE PÁGINA ===== */
