@@ -172,6 +172,12 @@ body {
   position: relative;
 }
 
+/* Categoría con foto: la foto llena la tarjeta */
+.categoria.con-foto {
+  background-size: cover;
+  background-position: center;
+}
+
 .categoria-rojo {
   background: linear-gradient(to bottom, #d4544f, var(--rojo));
 }

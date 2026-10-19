@@ -104,6 +104,68 @@ function crearTarjeta(oferta) {
 const contenedor = document.getElementById("lista-ofertas");
 contenedor.innerHTML = ofertas.map(crearTarjeta).join("");
 
+// ===== LISTA DE CATEGORÍAS =====
+// color: rojo, azul, amarillo o verde (son las clases categoria-... del CSS)
+// foto: nombre del archivo dentro de img/productos/
+// (si una categoría no tiene foto, se ve su color con el icono)
+const categorias = [
+  {
+    nombre: "Damas",
+    descripcion: "Blusas bordadas, anacos",
+    icono: "👚",
+    color: "rojo",
+    foto: "blusas.png",
+  },
+  {
+    nombre: "Caballeros",
+    descripcion: "Ponchos, camisas, sombreros",
+    icono: "🧥",
+    color: "azul",
+    foto: "ponchos.png",
+  },
+  {
+    nombre: "Alpargatas",
+    descripcion: "Trajes típicos para los peques",
+    icono: "🧒",
+    color: "amarillo",
+    foto: "alpargatas.png",
+  },
+  {
+    nombre: "Accesorios",
+    descripcion: "Fachalinas, collares, fajas",
+    icono: "📿",
+    color: "verde",
+    foto: "collar.png",
+  },
+];
+
+// ===== CREAR UNA CATEGORÍA =====
+function crearCategoria(categoria) {
+  // Con foto: la foto de fondo con una sombra oscura abajo para que se lea el texto
+  const fondo = categoria.foto
+    ? `style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent 60%), url('img/productos/${categoria.foto}')"`
+    : "";
+  const claseFoto = categoria.foto ? "con-foto" : "";
+  const icono = categoria.foto
+    ? ""
+    : `<span class="categoria-icono">${categoria.icono}</span>`;
+
+  return `
+    <div class="col">
+      <a href="#ofertas" class="categoria categoria-${categoria.color} ${claseFoto}" ${fondo}>
+        ${icono}
+        <h3 class="titulo h4 mb-0">${categoria.nombre}</h3>
+        <small>${categoria.descripcion}</small>
+      </a>
+    </div>
+  `;
+}
+
+// ===== MOSTRAR LAS CATEGORÍAS EN LA PÁGINA =====
+document.getElementById("lista-categorias").innerHTML = categorias
+  .map(crearCategoria)
+  .join("");
+
 // ===== CERRAR EL MENÚ DEL CELULAR AL ELEGIR UNA OPCIÓN =====
 document.querySelectorAll("#menuPrincipal .nav-link").forEach((enlace) => {
   enlace.addEventListener("click", () => {
