@@ -185,6 +185,31 @@ body {
   background: linear-gradient(to bottom, #2a9a9c, var(--verde));
 }
 
+/* ===== OFERTAS ===== */
+.ofertas {
+  background-color: var(--arena);
+}
+.oferta {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.oferta-imagen {
+  position: relative;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  background-color: var(--crema);
+}
+.oferta-descuento {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background-color: var(--rojo);
+  border-radius: 999px;
+}
+
 /* ===== PIE DE PÁGINA ===== */
 footer {
   background-color: var(--azul);
