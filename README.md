@@ -1,4 +1,4 @@
-# Yausing · Ropa indígena
+# Yausig Churikuna · Ropa indígena
 
 Página web de **Yausing**, el local de ropa indígena de Mary en Quito, Ecuador: prendas tradicionales, bordados y accesorios que mantienen viva nuestra cultura.
 
