@@ -1,0 +1,44 @@
+/* =========================================================
+   pie.css · Pie de página y botón flotante de WhatsApp
+   ========================================================= */
+
+/* ----- 13. PIE DE PÁGINA ----- */
+.pie {
+  background: var(--hueso);
+  padding: 36px 0;
+  color: var(--suave);
+}
+.pie-logo {
+  height: 64px;
+  width: auto;
+}
+
+/* Botón flotante de WhatsApp */
+.whatsapp-flotante {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 1030;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--whatsapp);
+  color: var(--blanco);
+  font-size: 1.8rem;
+  box-shadow: 0 12px 26px -10px rgba(31, 168, 85, 0.8);
+  animation: latido 2.4s ease-in-out infinite;
+}
+.whatsapp-flotante:hover {
+  color: var(--blanco);
+}
+@keyframes latido {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}

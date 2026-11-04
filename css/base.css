@@ -1,0 +1,135 @@
+/* =========================================================
+   base.css · Estilos generales: letras, secciones, franja de colores y botones
+   ========================================================= */
+
+/* ----- 2. BASE ----- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px; /* para que el menú no tape los títulos */
+}
+
+body {
+  background-color: var(--blanco);
+  color: var(--tinta);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 400;
+}
+
+.titulo {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 600;
+  color: var(--tinta);
+  letter-spacing: -0.01em;
+}
+
+/* Palabra destacada en los títulos */
+.titulo em {
+  font-style: italic;
+  color: var(--rojo);
+}
+
+.texto-suave {
+  color: var(--suave);
+  line-height: 1.75;
+}
+
+.seccion {
+  padding: 96px 0;
+}
+.seccion-hueso {
+  background-color: var(--hueso);
+}
+
+.encabezado {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 48px;
+}
+
+/* Etiqueta pequeña encima de cada título */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--verde);
+  margin-bottom: 14px;
+}
+
+/* Rombito de colores (como el logo) */
+.rombo {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--amarillo) 50%, var(--rojo) 50%);
+}
+
+/* ----- 3. FRANJA TEJIDA (la rayita de colores del logo) ----- */
+.franja {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--naranja) 0 48px,
+    var(--amarillo) 48px 96px,
+    var(--rojo) 96px 144px,
+    var(--verde) 144px 192px,
+    var(--azul) 192px 240px
+  );
+}
+
+/* ----- 4. BOTONES ----- */
+.btn {
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-rojo {
+  background-color: var(--rojo);
+  color: var(--blanco);
+  border: 0;
+}
+.btn-rojo:hover {
+  background-color: var(--naranja);
+  color: var(--blanco);
+}
+
+.btn-borde {
+  border: 2px solid var(--tinta);
+  color: var(--tinta);
+  background: transparent;
+}
+.btn-borde:hover {
+  background-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.btn-whatsapp {
+  background-color: var(--whatsapp);
+  color: var(--blanco);
+  border: 0;
+}
+.btn-whatsapp:hover {
+  background-color: #188b46;
+  color: var(--blanco);
+}
+
+/* Aviso rojo si no se pudieron leer los datos del JSON */
+.aviso-error {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 1050;
+  background: var(--rojo);
+  color: var(--blanco);
+  padding: 12px 20px;
+  border-radius: 14px;
+  box-shadow: var(--sombra);
+}

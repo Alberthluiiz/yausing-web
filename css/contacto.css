@@ -1,0 +1,114 @@
+/* =========================================================
+   contacto.css · Contacto y mapa
+   ========================================================= */
+
+/* ----- 12. CONTACTO ----- */
+.contacto-tarjeta {
+  height: 100%;
+  background: var(--hueso);
+  border-radius: var(--radio);
+  padding: 34px;
+}
+.dato {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.dato-icono {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--blanco);
+  font-size: 1.25rem;
+}
+.dato small {
+  color: var(--suave);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.dato p {
+  margin: 2px 0 0;
+  font-weight: 500;
+}
+
+.redes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--borde);
+}
+.redes small {
+  color: var(--suave);
+}
+.redes a {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--blanco);
+  color: var(--tinta);
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.redes a:hover {
+  background: var(--tinta);
+  color: var(--blanco);
+}
+
+.mapa {
+  position: relative;
+  height: 100%;
+  min-height: 420px;
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--hueso-2);
+}
+.mapa iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 1;
+}
+/* Dibujo de calles que se ve mientras carga el mapa */
+.mapa-dibujo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: #eef0e6;
+  background-image:
+    linear-gradient(90deg, transparent 47%, #ffffff 47% 53%, transparent 53%),
+    linear-gradient(0deg, transparent 47%, #ffffff 47% 53%, transparent 53%);
+  background-size: 140px 140px;
+}
+.mapa-pin {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--rojo);
+  color: var(--blanco);
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  box-shadow: 0 0 0 12px rgba(167, 25, 22, 0.15);
+}
+.mapa-dibujo strong {
+  background: var(--blanco);
+  border-radius: 999px;
+  padding: 8px 18px;
+  box-shadow: var(--sombra);
+}

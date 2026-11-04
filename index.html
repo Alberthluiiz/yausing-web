@@ -3,31 +3,67 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yausig Churikuna · Ropa indígena</title>
-    <link rel="icon" href="img/yausig-icono.png" />
 
-    <!-- Fuentes de Google -->
+    <!--
+      SEGURIDAD: Política de contenido (CSP).
+      Le dice al navegador de dónde SÍ puede cargar cosas.
+      Todo lo demás se bloquea (así nadie puede meter código extraño).
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <title>Yausig Churikuna · Ropa indígena en Quito</title>
+    <meta
+      name="description"
+      content="Sacos, ponchos, pantalones y camisas de cuello militar. Ropa indígena en el C.C. Ipiales del Sur, Quito."
+    />
+    <link rel="icon" href="img/yausig-icono.svg" type="image/svg+xml" />
+
+    <!-- Fuentes de Google: Playfair Display (títulos) e Inter (textos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Bootstrap -->
+    <!--
+      Bootstrap 5 y sus iconos.
+      SEGURIDAD: "integrity" es la huella del archivo original.
+      Si alguien lo cambiara en internet, el navegador no lo carga.
+    -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+      integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+"
+      crossorigin="anonymous"
     />
 
-    <!-- Nuestros estilos (siempre después de Bootstrap) -->
-    <link href="css/styles.css" rel="stylesheet" />
+    <!-- Nuestros estilos (estilos.css junta todos los archivos de la carpeta css/) -->
+    <link href="css/estilos.css" rel="stylesheet" />
   </head>
+
   <body>
-    <!-- ===== MENÚ ===== -->
-    <nav class="navbar navbar-expand-md sticky-top menu">
+    <!-- ===================================================
+         1. MENÚ
+         =================================================== -->
+    <nav class="navbar navbar-expand-lg sticky-top menu" id="menu">
       <div class="container">
         <a class="navbar-brand" href="#inicio">
-          <img src="img/yausig-logo.png" alt="Yausig Churikuna" height="44" />
+          <img
+            src="img/yausig-logo.svg"
+            alt="Yausig Churikuna"
+            class="menu-logo"
+          />
         </a>
 
         <!-- Botón hamburguesa: solo aparece en el celular -->
@@ -36,249 +72,393 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#menuPrincipal"
+          aria-controls="menuPrincipal"
+          aria-expanded="false"
+          aria-label="Abrir menú"
         >
-          <span class="navbar-toggler-icon"></span>
+          <i class="bi bi-list"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="menuPrincipal">
-          <ul class="navbar-nav ms-auto gap-md-3">
+          <ul class="navbar-nav mx-auto gap-lg-2">
             <li class="nav-item">
               <a class="nav-link" href="#inicio">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#categorias">Categorías</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#ofertas">Ofertas</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#nosotros">Nosotros</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="#productos">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#ofertas">Ofertas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#galeria">Galería</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#contacto">Contacto</a>
             </li>
           </ul>
+          <!-- Los botones con la clase "enlace-whatsapp" los completa js/modulos/whatsapp.js -->
+          <a
+            class="btn btn-whatsapp rounded-pill px-4 enlace-whatsapp"
+            href="#contacto"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="bi bi-whatsapp me-2"></i>WhatsApp
+          </a>
         </div>
       </div>
     </nav>
 
-    <!-- Franja decorativa con los colores del logo -->
+    <!-- Franja con los colores del logo -->
     <div class="franja"></div>
 
-    <!-- ===== CONTENIDO ===== -->
     <main>
-      <!-- ===== PORTADA ===== -->
-      <section id="inicio" class="container py-5">
-        <div class="row align-items-center g-4 g-lg-5 py-lg-5">
-          <!-- Columna izquierda: textos y botones -->
-          <div class="col-lg-6">
-            <p class="etiqueta">Ropa indígena · Hecha con orgullo</p>
-            <h1 class="titulo display-3 fw-bold">
-              Viste con <em class="text-rojo">orgullo</em>,<br />
-              vive tu cultura.
-            </h1>
-            <p class="lead text-secondary mt-4">
-              Prendas tradicionales, bordados y accesorios para toda la familia,
-              con la calidez de nuestra tierra.
-            </p>
-            <div class="d-flex flex-wrap gap-3 mt-4">
-              <a href="#ofertas" class="btn btn-rojo rounded-pill px-4 py-2"
-                >Ver ofertas →</a
-              >
-              <a
-                href="#categorias"
-                class="btn btn-outline-dark rounded-pill px-4 py-2"
-                >Explorar categorías</a
-              >
+      <!-- ===================================================
+           2. INICIO (PORTADA)
+           =================================================== -->
+      <section id="inicio" class="portada">
+        <div class="rombos-fondo" aria-hidden="true"></div>
+
+        <div class="container position-relative">
+          <div class="row align-items-center g-4 g-lg-5">
+            <!-- Textos -->
+            <div class="col-lg-6 aparecer">
+              <p class="etiqueta"><i class="rombo"></i>Ropa indígena · Quito</p>
+              <h1 class="titulo portada-titulo">
+                Vestimos tu <em>identidad</em> con orgullo
+              </h1>
+              <p class="portada-texto">
+                Sacos, ponchos, pantalones y camisas de cuello militar, elegidos
+                con cariño por Mary para toda la familia.
+              </p>
+
+              <div class="d-flex flex-wrap gap-3 mt-4">
+                <a
+                  href="#productos"
+                  class="btn btn-rojo rounded-pill px-4 py-3"
+                >
+                  Ver productos <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+                <a
+                  href="#contacto"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-borde rounded-pill px-4 py-3 enlace-whatsapp"
+                >
+                  <i class="bi bi-whatsapp me-2"></i>Escríbenos
+                </a>
+              </div>
+
+              <div class="portada-datos">
+                <div><strong>100%</strong><small>Ropa tradicional</small></div>
+                <div><strong>4</strong><small>Tipos de prendas</small></div>
+                <div><strong>$15</strong><small>Precios desde</small></div>
+              </div>
             </div>
-          </div>
 
-          <!-- Columna derecha: tarjeta con el icono -->
-          <div class="col-lg-6">
-            <div class="hero-tarjeta mx-auto">
-              <div class="hero-circulo">
-                <img
-                  src="img/yausig-icono.png"
-                  alt="Icono de Yausig Churikuna"
-                />
-              </div>
-
-              <div class="hero-etiqueta arriba">
-                <strong>🏷️ Hasta -30%</strong>
-                <small>En ofertas seleccionadas</small>
-              </div>
-              <div class="hero-etiqueta abajo">
-                <strong>✨ Nueva temporada</strong>
-                <small>Bordados recién llegados</small>
+            <!-- Fotos en arco (las fotos se cambian en datos/tienda.json → "imagenes") -->
+            <div class="col-lg-6 aparecer">
+              <div class="portada-visual">
+                <div class="arco arco-grande">
+                  <img
+                    id="foto-portada-grande"
+                    src="img/productos/ponchos.png"
+                    alt="Prenda destacada"
+                  />
+                </div>
+                <div class="arco arco-chico">
+                  <img
+                    id="foto-portada-chica"
+                    src="img/productos/saco.png"
+                    alt="Prenda destacada"
+                  />
+                </div>
+                <img src="img/yausig-icono.svg" alt="" class="portada-icono" />
+                <div class="burbuja burbuja-arriba">
+                  <i class="bi bi-stars"></i>
+                  <div>
+                    <strong>Nueva temporada</strong
+                    ><small>Ponchos y sacos</small>
+                  </div>
+                </div>
+                <div class="burbuja burbuja-abajo">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <div>
+                    <strong>C.C. Ipiales del Sur</strong><small>Local 67</small>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <!-- ===== BENEFICIOS ===== -->
+
+      <!-- Beneficios -->
       <section class="beneficios">
         <div class="container">
-          <div
-            class="row row-cols-2 row-cols-md-4 g-3 py-3 text-center small fw-medium"
-          >
-            <div class="col">🚚 Envíos a domicilio</div>
-            <div class="col">📱 Aceptamos transferencias</div>
-            <div class="col">🔄 Cambios fáciles</div>
-            <div class="col">🧵 Bordado a mano</div>
+          <div class="row row-cols-2 row-cols-lg-4 g-3 text-center">
+            <div class="col">
+              <div class="beneficio">
+                <i class="bi bi-truck icono-naranja"></i>Envíos a todo el
+                Ecuador
+              </div>
+            </div>
+            <div class="col">
+              <div class="beneficio">
+                <i class="bi bi-credit-card-2-front-fill icono-amarillo"></i
+                >Pago por transferencia
+              </div>
+            </div>
+            <div class="col">
+              <div class="beneficio">
+                <i class="bi bi-arrow-repeat icono-verde"></i>Cambios de talla
+              </div>
+            </div>
+            <div class="col">
+              <div class="beneficio">
+                <i class="bi bi-heart-fill icono-rojo"></i>Atención con cariño
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== CATEGORÍAS ===== -->
-      <!-- ===== CATEGORÍAS ===== -->
-      <section id="categorias" class="container py-5 my-lg-4">
-        <div class="text-center mb-5">
-          <p class="etiqueta">Categorías</p>
-          <h2 class="titulo display-6 fw-bold">Encuentra tu estilo</h2>
-          <p class="text-secondary">
-            Prendas tradicionales para cada ocasión y para toda la familia.
-          </p>
+      <!-- ===================================================
+           3. NOSOTROS
+           =================================================== -->
+      <section id="nosotros" class="seccion">
+        <div class="container">
+          <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-5 aparecer">
+              <div class="nosotros-marco">
+                <img
+                  id="foto-nosotros"
+                  src="img/yausig-logo-vertical.svg"
+                  alt="Yausig Churikuna"
+                />
+              </div>
+            </div>
+            <div class="col-lg-7 aparecer">
+              <p class="etiqueta"><i class="rombo"></i>Nosotros</p>
+              <h2 class="titulo display-6 mb-4">
+                Un local familiar con <em>raíces</em> andinas
+              </h2>
+              <p class="texto-suave">
+                Yausig Churikuna es el local de Mary en el sur de Quito. Desde
+                hace años ayudamos a nuestras familias a vestir su cultura con
+                prendas tradicionales de buena calidad y a precios justos.
+              </p>
+              <p class="texto-suave mb-4">
+                Te atendemos como en casa: te ayudamos a elegir la talla, el
+                color y la prenda perfecta para el día a día o para las fiestas.
+              </p>
+              <div class="row row-cols-1 row-cols-sm-3 g-3">
+                <div class="col">
+                  <div class="valor valor-rojo">
+                    <span>01</span>
+                    <h3>Calidad</h3>
+                    <small>Telas y tejidos que duran</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="valor valor-amarillo">
+                    <span>02</span>
+                    <h3>Tradición</h3>
+                    <small>Diseños de nuestra tierra</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="valor valor-verde">
+                    <span>03</span>
+                    <h3>Confianza</h3>
+                    <small>Atención cercana</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- Las tarjetas de categorías las crea JavaScript (js/main.js) -->
-        <div
-          id="lista-categorias"
-          class="row row-cols-2 row-cols-lg-4 g-4"
-        ></div>
       </section>
 
-      <!-- ===== OFERTAS ===== -->
-      <section id="ofertas" class="ofertas py-5">
-        <div class="container py-lg-4">
-          <div class="text-center mb-5">
-            <p class="etiqueta">Ofertas</p>
-            <h2 class="titulo display-6 fw-bold">Precios especiales</h2>
-            <p class="text-secondary">
-              Aprovecha nuestras promociones antes de que se agoten.
+      <!-- ===================================================
+           4. PRODUCTOS (los datos están en datos/tienda.json)
+           =================================================== -->
+      <section id="productos" class="seccion seccion-hueso">
+        <div class="container">
+          <div class="encabezado aparecer">
+            <p class="etiqueta"><i class="rombo"></i>Productos</p>
+            <h2 class="titulo display-6">Nuestra <em>colección</em></h2>
+            <p class="texto-suave">
+              Elige una categoría y pide tu prenda por WhatsApp.
             </p>
           </div>
 
-          <!-- Las tarjetas de productos las crea JavaScript (js/main.js) -->
+          <!-- Botones para filtrar (los crea js/modulos/productos.js) -->
+          <div id="filtros" class="filtros"></div>
+
+          <!-- Aquí se ponen las tarjetas de productos -->
           <div
-            id="lista-ofertas"
-            class="row row-cols-2 row-cols-lg-4 g-4"
+            id="lista-productos"
+            class="row row-cols-2 row-cols-lg-4 g-3 g-lg-4"
           ></div>
         </div>
       </section>
 
-      <!-- ===== NOSOTROS ===== -->
-      <section id="nosotros" class="py-5">
-        <div class="container py-lg-4">
-          <div class="row align-items-center g-4 g-lg-5">
-            <!-- Imagen: en celular va abajo (order-2), en PC a la izquierda -->
-            <div class="col-lg-6 order-2 order-lg-1">
-              <div class="nosotros-marco">
-                <img
-                  src="img/yausig-logo-vertical.png"
-                  alt="Logo de Yausig Churikuna"
-                  class="img-fluid"
-                />
-              </div>
-            </div>
-
-            <!-- Texto -->
-            <div class="col-lg-6 order-1 order-lg-2">
-              <p class="etiqueta">Acerca de</p>
-              <h2 class="titulo display-6 fw-bold mb-3">
-                Ropa con raíces, hecha con <span class="text-rojo">cariño</span>
+      <!-- ===================================================
+           5. OFERTAS
+           =================================================== -->
+      <section id="ofertas" class="seccion">
+        <div class="container">
+          <div class="row align-items-end g-4 mb-5">
+            <div class="col-lg-7 aparecer">
+              <p class="etiqueta"><i class="rombo"></i>Ofertas</p>
+              <h2 class="titulo display-6 mb-0">
+                Precios <em>especiales</em> del mes
               </h2>
-              <p class="text-secondary">
-                Yausig Churikuna es el local de Mary en Quito. Ofrecemos ropa
-                indígena tradicional para damas, caballeros y niños, con
-                bordados y tejidos que guardan la historia de nuestros pueblos.
-              </p>
-              <p class="text-secondary mb-4">
-                Cada prenda se elige con cuidado para que luzcas tu identidad
-                con orgullo en el día a día y en las fiestas.
-              </p>
-
-              <div class="row row-cols-1 row-cols-sm-3 g-3">
-                <div class="col">
-                  <div class="valor">
-                    <span class="valor-icono">🧵</span>
-                    <h3 class="h6 fw-bold mb-1">Hecho a mano</h3>
-                    <small class="text-secondary">Bordados de artesanas</small>
+            </div>
+            <!-- Cuenta regresiva hasta fin de mes (js/modulos/reloj.js) -->
+            <div class="col-lg-5 aparecer">
+              <div class="reloj">
+                <small>La oferta termina en</small>
+                <div class="reloj-numeros">
+                  <div>
+                    <strong id="reloj-dias">00</strong><span>días</span>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="valor">
-                    <span class="valor-icono">🌄</span>
-                    <h3 class="h6 fw-bold mb-1">Tradición</h3>
-                    <small class="text-secondary"
-                      >Diseños de nuestra tierra</small
-                    >
+                  <div>
+                    <strong id="reloj-horas">00</strong><span>horas</span>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="valor">
-                    <span class="valor-icono">🤝</span>
-                    <h3 class="h6 fw-bold mb-1">Confianza</h3>
-                    <small class="text-secondary">Atención cercana</small>
+                  <div>
+                    <strong id="reloj-minutos">00</strong><span>min</span>
+                  </div>
+                  <div>
+                    <strong id="reloj-segundos">00</strong><span>seg</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div
+            id="lista-ofertas"
+            class="row row-cols-1 row-cols-md-3 g-4"
+          ></div>
         </div>
       </section>
 
-      <!-- ===== CONTACTO ===== -->
-      <section id="contacto" class="py-5">
-        <div class="container py-lg-4">
-          <div class="contacto-tarjeta">
-            <div class="row g-0">
-              <!-- Lado izquierdo: invitación y botón de WhatsApp -->
-              <div class="col-lg-7 contacto-invitacion">
-                <p class="etiqueta etiqueta-clara">Contacto</p>
-                <h2 class="titulo display-6 fw-bold mb-3">
-                  ¿Te gustó alguna <span class="text-amarillo">prenda</span>?
-                </h2>
-                <p class="mb-4 opacity-75">
-                  Escríbenos por WhatsApp y te ayudamos con tallas, colores y
-                  envíos a todo el Ecuador.
-                </p>
-                <!-- El enlace de WhatsApp lo completa JavaScript (js/main.js) -->
-                <a
-                  id="boton-whatsapp"
-                  href="#"
-                  target="_blank"
-                  class="btn btn-whatsapp btn-lg rounded-pill px-4"
-                >
-                  💬 Escríbenos por WhatsApp
-                </a>
-                <p class="small mt-3 mb-0 opacity-75">
-                  🟢 Respondemos en pocos minutos
-                </p>
-              </div>
+      <!-- ===================================================
+           6. GALERÍA
+           =================================================== -->
+      <section id="galeria" class="seccion seccion-hueso">
+        <div class="container">
+          <div class="encabezado aparecer">
+            <p class="etiqueta"><i class="rombo"></i>Galería</p>
+            <h2 class="titulo display-6">Conoce nuestro <em>local</em></h2>
+            <p class="texto-suave">Toca una foto para verla en grande.</p>
+          </div>
 
-              <!-- Lado derecho: datos del local -->
-              <div class="col-lg-5 contacto-datos">
-                <h3 class="titulo h4 fw-bold mb-4">Visítanos</h3>
+          <div id="lista-galeria" class="galeria"></div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           7. CONTACTO (los datos están en datos/tienda.json → "tienda")
+           =================================================== -->
+      <section id="contacto" class="seccion">
+        <div class="container">
+          <div class="encabezado aparecer">
+            <p class="etiqueta"><i class="rombo"></i>Contacto</p>
+            <h2 class="titulo display-6">Te esperamos en el <em>local</em></h2>
+          </div>
+
+          <div class="row g-4 align-items-stretch">
+            <div class="col-lg-5 aparecer">
+              <div class="contacto-tarjeta">
                 <div class="dato">
-                  <span class="dato-icono icono-rojo">📍</span>
+                  <span class="dato-icono icono-rojo"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
                   <div>
-                    <small class="dato-titulo">Dirección</small>
-                    <p class="mb-0">Quito, Ecuador</p>
+                    <small>Dirección</small>
+                    <p>
+                      <span id="contacto-direccion"
+                        >Centro Comercial Ipiales del Sur, Local 67</span
+                      ><br /><span id="contacto-referencia"
+                        >Cerca de Servientrega · Quito</span
+                      >
+                    </p>
                   </div>
                 </div>
                 <div class="dato">
-                  <span class="dato-icono icono-amarillo">🕘</span>
+                  <span class="dato-icono icono-amarillo"
+                    ><i class="bi bi-clock-fill"></i
+                  ></span>
                   <div>
-                    <small class="dato-titulo">Horario</small>
-                    <p class="mb-0">Lunes a sábado, 9:00 a 18:00</p>
+                    <small>Horario</small>
+                    <p id="contacto-horario">Lunes a sábado · 9:00 a 18:00</p>
                   </div>
                 </div>
                 <div class="dato">
-                  <span class="dato-icono icono-verde">📞</span>
+                  <span class="dato-icono icono-verde"
+                    ><i class="bi bi-whatsapp"></i
+                  ></span>
                   <div>
-                    <small class="dato-titulo">Teléfono</small>
-                    <p class="mb-0" id="telefono"></p>
+                    <small>WhatsApp</small>
+                    <p id="contacto-telefono">096 138 0728</p>
                   </div>
+                </div>
+
+                <a
+                  href="#contacto"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-whatsapp btn-lg rounded-pill w-100 mt-2 enlace-whatsapp"
+                >
+                  <i class="bi bi-whatsapp me-2"></i>Escríbenos por WhatsApp
+                </a>
+
+                <!-- Redes: si en tienda.json el enlace está vacío, se muestra "muy pronto" -->
+                <div class="redes">
+                  <small id="redes-texto">Síguenos (muy pronto)</small>
+                  <div>
+                    <a
+                      href="#contacto"
+                      data-red="facebook"
+                      aria-label="Facebook"
+                      ><i class="bi bi-facebook"></i
+                    ></a>
+                    <a
+                      href="#contacto"
+                      data-red="instagram"
+                      aria-label="Instagram"
+                      ><i class="bi bi-instagram"></i
+                    ></a>
+                    <a href="#contacto" data-red="tiktok" aria-label="TikTok"
+                      ><i class="bi bi-tiktok"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-7 aparecer">
+              <div class="mapa">
+                <!-- El enlace del mapa lo pone js/modulos/contacto.js -->
+                <iframe
+                  id="mapa"
+                  title="Mapa del Centro Comercial Ipiales del Sur"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+                <!-- Dibujo que se ve mientras carga el mapa -->
+                <div class="mapa-dibujo" aria-hidden="true">
+                  <span class="mapa-pin"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
+                  <strong>C.C. Ipiales del Sur · Local 67</strong>
                 </div>
               </div>
             </div>
@@ -287,21 +467,189 @@
       </section>
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===================================================
+         PIE DE PÁGINA
+         =================================================== -->
     <div class="franja"></div>
-    <footer>
-      <div
-        class="container d-flex flex-wrap justify-content-between gap-2 py-4 small"
-      >
-        <span class="titulo fw-bold">Yausig Churikuna</span>
-        <span>© 2026 Yausig Churikuna · Todos los derechos reservados</span>
+    <footer class="pie">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-4 text-center text-md-start">
+            <img
+              src="img/yausig-logo.svg"
+              alt="Yausig Churikuna"
+              class="pie-logo"
+            />
+          </div>
+          <div class="col-md-4 text-center">
+            <p class="mb-0 small">C.C. Ipiales del Sur, Local 67 · Quito</p>
+          </div>
+          <div class="col-md-4 text-center text-md-end small">
+            © <span id="anio">2026</span> Yausig Churikuna
+          </div>
+        </div>
       </div>
     </footer>
 
-    <!-- JavaScript de Bootstrap (hace funcionar el menú hamburguesa) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Botón flotante de WhatsApp -->
+    <a
+      href="#contacto"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="whatsapp-flotante enlace-whatsapp"
+      aria-label="Escríbenos por WhatsApp"
+    >
+      <i class="bi bi-whatsapp"></i>
+    </a>
 
-    <!-- Nuestro JavaScript -->
-    <script src="js/main.js"></script>
+    <!-- Aviso si no se pudieron cargar los datos (por ejemplo, si abres el archivo sin Live Server) -->
+    <div id="aviso-error" class="aviso-error" hidden>
+      No se pudieron cargar los productos. Abre la página con
+      <strong>Live Server</strong>.
+    </div>
+
+    <!-- Ventana para ver las fotos en grande (modal de Bootstrap) -->
+    <div
+      class="modal fade"
+      id="visor"
+      tabindex="-1"
+      aria-hidden="true"
+      aria-label="Foto en grande"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content visor">
+          <button
+            type="button"
+            class="visor-cerrar"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+          <img id="visor-foto" src="img/yausig-icono.svg" alt="" />
+          <p id="visor-texto" class="mb-0"></p>
+          <button
+            type="button"
+            class="visor-flecha izquierda"
+            id="visor-anterior"
+            aria-label="Anterior"
+          >
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button
+            type="button"
+            class="visor-flecha derecha"
+            id="visor-siguiente"
+            aria-label="Siguiente"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         PLANTILLAS: el "molde" de cada tarjeta.
+         JavaScript las copia y les pone los datos del JSON.
+         Si quieres cambiar cómo se ve una tarjeta, cámbiala aquí.
+         =================================================== -->
+
+    <!-- Molde de un producto -->
+    <template id="plantilla-producto">
+      <div class="col producto-col">
+        <article class="producto">
+          <div class="producto-foto">
+            <img
+              data-campo="foto"
+              src="img/yausig-icono.svg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="producto-categoria" data-campo="categoria"></span>
+            <small class="producto-nota" data-campo="nota" hidden
+              >Imagen de referencia</small
+            >
+          </div>
+          <div class="producto-cuerpo">
+            <h3 data-campo="nombre"></h3>
+            <p data-campo="descripcion"></p>
+            <div class="colores" data-campo="colores"></div>
+            <div class="precio-fila">
+              <div class="precio">
+                <small>Desde</small>
+                <span class="precio-valor" data-campo="precio"></span>
+              </div>
+              <a
+                class="boton-pedir"
+                data-campo="whatsapp"
+                href="#contacto"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pedir por WhatsApp"
+              >
+                <i class="bi bi-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+
+    <!-- Molde de una oferta -->
+    <template id="plantilla-oferta">
+      <div class="col aparecer">
+        <article class="oferta">
+          <div class="oferta-cabeza">
+            <img
+              data-campo="foto"
+              src="img/yausig-icono.svg"
+              alt=""
+              class="oferta-foto"
+            />
+            <span class="oferta-descuento" data-campo="descuento"></span>
+          </div>
+          <h3 data-campo="nombre"></h3>
+          <p data-campo="descripcion"></p>
+          <div class="oferta-precios">
+            <span class="precio-valor" data-campo="ahora"></span>
+            <del data-campo="antes"></del>
+          </div>
+          <a
+            class="btn btn-rojo rounded-pill w-100"
+            data-campo="whatsapp"
+            href="#contacto"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="bi bi-whatsapp me-2"></i>La quiero
+          </a>
+        </article>
+      </div>
+    </template>
+
+    <!-- Molde de una foto de la galería -->
+    <template id="plantilla-foto">
+      <button type="button" class="galeria-foto aparecer">
+        <img
+          data-campo="foto"
+          src="img/yausig-icono.svg"
+          alt=""
+          loading="lazy"
+        />
+        <span
+          ><i class="bi bi-zoom-in me-1"></i><b data-campo="texto"></b
+        ></span>
+      </button>
+    </template>
+
+    <!-- JavaScript de Bootstrap (menú del celular y ventana de fotos) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Nuestro JavaScript (type="module" permite separarlo en varios archivos) -->
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,165 @@
+{
+  "tienda": {
+    "nombre": "Yausig Churikuna",
+    "whatsapp": "593961380728",
+    "telefonoVisible": "096 138 0728",
+    "mensajeWhatsapp": "Hola, vi su página y quiero más información.",
+    "direccion": "Centro Comercial Ipiales del Sur, Local 67",
+    "referencia": "Cerca de Servientrega · Quito",
+    "horario": ["Lunes a sábado · 9:00 a 18:00", "Domingo · 9:00 a 14:00"],
+    "mapa": "https://www.google.com/maps?q=Centro+Comercial+Ipiales+del+Sur,+Quito&output=embed",
+    "redes": {
+      "facebook": "",
+      "instagram": "",
+      "tiktok": ""
+    }
+  },
+
+  "imagenes": {
+    "portadaGrande": "img/productos/anacos.png",
+    "portadaChica": "img/productos/ponchos.png",
+    "nosotros": "img/yausig-logo-vertical.svg"
+  },
+
+  "categorias": ["Todos", "Sacos", "Ponchos", "Pantalones", "Camisas"],
+
+  "productos": [
+    {
+      "nombre": "Saco de lana tejido",
+      "categoria": "Sacos",
+      "descripcion": "Abrigador, tejido a mano.",
+      "precio": 35,
+      "foto": "img/productos/saco.png",
+      "dibujo": false,
+      "colores": ["#c8a27a", "#6b4a35", "#1e2040"]
+    },
+    {
+      "nombre": "Saco con diseño andino",
+      "categoria": "Sacos",
+      "descripcion": "Con grecas tradicionales.",
+      "precio": 42,
+      "foto": "img/ilustraciones/saco.svg",
+      "dibujo": true,
+      "colores": ["#c75e15", "#a71916", "#0c6f71"]
+    },
+    {
+      "nombre": "Poncho tradicional",
+      "categoria": "Ponchos",
+      "descripcion": "Lana gruesa, colores vivos.",
+      "precio": 55,
+      "foto": "img/productos/ponchos.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Poncho de diario",
+      "categoria": "Ponchos",
+      "descripcion": "Liviano y cómodo.",
+      "precio": 45,
+      "foto": "img/ilustraciones/poncho.svg",
+      "dibujo": true,
+      "colores": ["#0b283a", "#5f6174", "#c75e15"]
+    },
+    {
+      "nombre": "Pantalón blanco",
+      "categoria": "Pantalones",
+      "descripcion": "Tela de liencillo, corte clásico.",
+      "precio": 15,
+      "foto": "img/ilustraciones/pantalon-blanco.svg",
+      "dibujo": true,
+      "colores": ["#ffffff"]
+    },
+    {
+      "nombre": "Pantalón de colores",
+      "categoria": "Pantalones",
+      "descripcion": "Varios colores para elegir.",
+      "precio": 18,
+      "foto": "img/ilustraciones/pantalon-color.svg",
+      "dibujo": true,
+      "colores": ["#c75e15", "#0c6f71", "#0b283a", "#a71916"]
+    },
+    {
+      "nombre": "Camisa cuello militar blanca",
+      "categoria": "Camisas",
+      "descripcion": "Para hombre, fresca y elegante.",
+      "precio": 20,
+      "foto": "img/ilustraciones/camisa-blanca.svg",
+      "dibujo": true,
+      "colores": ["#ffffff"]
+    },
+    {
+      "nombre": "Camisa cuello militar de color",
+      "categoria": "Camisas",
+      "descripcion": "Para hombre, varios tonos.",
+      "precio": 22,
+      "foto": "img/ilustraciones/camisa-color.svg",
+      "dibujo": true,
+      "colores": ["#0c6f71", "#f59f16", "#1e2040"]
+    }
+  ],
+
+  "ofertas": [
+    {
+      "nombre": "Combo caballero",
+      "descripcion": "Poncho + camisa cuello militar + pantalón blanco.",
+      "antes": 90,
+      "ahora": 75,
+      "foto": "img/productos/ponchos.png",
+      "color": "rojo"
+    },
+    {
+      "nombre": "Saco de lana",
+      "descripcion": "Llévate tu saco tejido con descuento este mes.",
+      "antes": 35,
+      "ahora": 28,
+      "foto": "img/productos/saco.png",
+      "color": "naranja"
+    },
+    {
+      "nombre": "2 pantalones",
+      "descripcion": "Elige 2 pantalones, blancos o de colores.",
+      "antes": 36,
+      "ahora": 27,
+      "foto": "img/ilustraciones/pantalon-color.svg",
+      "color": "verde"
+    }
+  ],
+
+  "galeria": [
+    {
+      "foto": "img/productos/fondo.png",
+      "texto": "Prendas del local",
+      "tamano": "grande"
+    },
+    {
+      "foto": "img/productos/ponchos.png",
+      "texto": "Ponchos",
+      "tamano": "normal"
+    },
+    {
+      "foto": "img/productos/saco.png",
+      "texto": "Sacos de lana",
+      "tamano": "normal"
+    },
+    {
+      "foto": "img/productos/blusas.png",
+      "texto": "Bordados",
+      "tamano": "ancha"
+    },
+    {
+      "foto": "img/productos/bayeta.png",
+      "texto": "Tejidos de colores",
+      "tamano": "normal"
+    },
+    {
+      "foto": "img/productos/anacos.png",
+      "texto": "Telas bordadas",
+      "tamano": "normal"
+    },
+    {
+      "foto": "img/productos/collar.png",
+      "texto": "Accesorios",
+      "tamano": "ancha"
+    }
+  ]
+}

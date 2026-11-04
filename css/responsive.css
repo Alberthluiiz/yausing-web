@@ -1,0 +1,125 @@
+/* =========================================================
+   responsive.css · Ajustes para celular y tablet
+   ========================================================= */
+
+/* ----- 15. CELULAR Y TABLET ----- */
+@media (max-width: 991.98px) {
+  .seccion {
+    padding: 64px 0;
+  }
+  .menu-logo {
+    height: 42px;
+  }
+  .navbar-collapse {
+    padding: 12px 0 8px;
+  }
+  .navbar-collapse .btn-whatsapp {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .portada {
+    padding: 40px 0 64px;
+  }
+  .portada-visual {
+    height: 420px;
+  }
+  .galeria {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .portada-datos {
+    gap: 20px;
+  }
+  .portada-datos strong {
+    font-size: 1.6rem;
+  }
+  .portada-visual {
+    height: 380px;
+  }
+  .portada-icono {
+    width: 76px;
+  }
+  .burbuja-arriba {
+    left: 0;
+  }
+  .burbuja-abajo {
+    left: 10%;
+  }
+  .nosotros-marco {
+    padding: 36px;
+  }
+  .nosotros-marco::before {
+    top: -6px;
+    left: -6px;
+  }
+  .nosotros-marco::after {
+    bottom: -6px;
+    right: -6px;
+  }
+  .beneficio {
+    justify-content: flex-start;
+    text-align: left;
+    font-size: 0.85rem;
+  }
+  /* Productos: 2 por fila en el celular, más compactos */
+  .producto-cuerpo {
+    padding: 14px;
+  }
+  .producto-cuerpo h3 {
+    font-size: 1rem;
+  }
+  .producto-cuerpo p {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+  .producto-categoria {
+    top: 8px;
+    left: 8px;
+    font-size: 0.62rem;
+    padding: 4px 9px;
+  }
+  .producto-nota {
+    left: 8px;
+    bottom: 6px;
+    font-size: 0.62rem;
+  }
+  .colores {
+    margin-bottom: 12px;
+  }
+  .colores span {
+    width: 14px;
+    height: 14px;
+  }
+  .precio-fila {
+    padding-top: 10px;
+  }
+  .precio-valor strong {
+    font-size: 1.8rem;
+  }
+  .precio-valor sup,
+  .precio-valor span {
+    font-size: 0.8rem;
+  }
+  .boton-pedir {
+    width: 38px;
+    height: 38px;
+    font-size: 1.05rem;
+  }
+  .filtro {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  .contacto-tarjeta {
+    padding: 24px;
+  }
+  .mapa {
+    min-height: 320px;
+  }
+  .redes {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

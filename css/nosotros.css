@@ -1,0 +1,68 @@
+/* =========================================================
+   nosotros.css · Sección Nosotros
+   ========================================================= */
+
+/* ----- 8. NOSOTROS ----- */
+.nosotros-marco {
+  position: relative;
+  background: var(--hueso);
+  border-radius: var(--radio);
+  padding: 56px;
+  text-align: center;
+}
+/* Esquinas de colores */
+.nosotros-marco::before,
+.nosotros-marco::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border: 6px solid var(--amarillo);
+}
+.nosotros-marco::before {
+  top: -12px;
+  left: -12px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: var(--radio) 0 0 0;
+}
+.nosotros-marco::after {
+  bottom: -12px;
+  right: -12px;
+  border-left: 0;
+  border-top: 0;
+  border-color: var(--verde);
+  border-radius: 0 0 var(--radio) 0;
+}
+.nosotros-marco img {
+  width: 72%;
+  max-width: 300px;
+}
+
+.valor {
+  height: 100%;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 18px;
+  border-top: 4px solid var(--rojo);
+}
+.valor-amarillo {
+  border-top-color: var(--amarillo);
+}
+.valor-verde {
+  border-top-color: var(--verde);
+}
+.valor span {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: var(--naranja);
+}
+.valor h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 4px 0;
+}
+.valor small {
+  color: var(--suave);
+}

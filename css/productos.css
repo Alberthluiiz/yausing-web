@@ -1,0 +1,192 @@
+/* =========================================================
+   productos.css · Sección Productos: filtros, tarjetas y precios
+   ========================================================= */
+
+/* ----- 9. PRODUCTOS ----- */
+.filtros {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.filtro {
+  border: 1px solid var(--borde);
+  background: var(--blanco);
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.filtro:hover {
+  border-color: var(--tinta);
+}
+.filtro.activo {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.producto {
+  height: 100%;
+  background: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: 0 1px 0 var(--borde);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.producto:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra);
+}
+
+.producto-foto {
+  position: relative;
+  aspect-ratio: 4 / 4.2;
+  background-color: var(--hueso-2);
+  overflow: hidden;
+}
+.producto-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.producto:hover .producto-foto img {
+  transform: scale(1.06);
+}
+/* Cuando no hay foto: dibujo sobre fondo de rombos */
+.producto-foto.dibujo {
+  background-image:
+    linear-gradient(45deg, rgba(199, 94, 21, 0.1) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(12, 111, 113, 0.08) 25%, transparent 25%);
+  background-size: 44px 44px;
+}
+.producto-foto.dibujo img {
+  object-fit: contain;
+  padding: 14%;
+}
+
+.producto-categoria {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--blanco);
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.producto-nota {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-size: 0.72rem;
+  color: var(--suave);
+}
+
+.producto-cuerpo {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.producto-cuerpo h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.producto-cuerpo p {
+  color: var(--suave);
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+/* Bolitas de colores disponibles */
+.colores {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.colores span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--blanco);
+  outline: 1px solid var(--borde);
+}
+
+/* Precio bonito: $ pequeño, número grande, centavos pequeños */
+.precio-fila {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px dashed var(--borde);
+}
+.precio small {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+.precio-valor {
+  font-family: "Playfair Display", serif;
+  color: var(--rojo);
+  line-height: 1;
+  white-space: nowrap;
+}
+.precio-valor sup {
+  font-size: 1rem;
+  top: -1.1em;
+  margin-right: 2px;
+}
+.precio-valor strong {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+.precio-valor span {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.boton-pedir {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--whatsapp);
+  color: var(--blanco);
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.boton-pedir:hover {
+  transform: scale(1.1) rotate(-8deg);
+  color: var(--blanco);
+}
+
+/* Animación al cambiar de filtro */
+.producto-col {
+  animation: entrar 0.45s ease both;
+}
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

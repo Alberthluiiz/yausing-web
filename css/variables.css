@@ -1,0 +1,23 @@
+/* =========================================================
+   variables.css · Colores y medidas que se usan en toda la página
+   ========================================================= */
+
+/* ----- 1. COLORES (sacados del logo) ----- */
+:root {
+  --blanco: #ffffff;
+  --hueso: #f8f3ea;
+  --hueso-2: #efe6d6;
+  --tinta: #1e2040; /* letras moradas oscuras del logo */
+  --suave: #5f6174;
+  --borde: #e7dccb;
+
+  --naranja: #c75e15;
+  --amarillo: #f59f16;
+  --rojo: #a71916;
+  --verde: #0c6f71;
+  --azul: #0b283a;
+  --whatsapp: #1fa855;
+
+  --sombra: 0 18px 40px -22px rgba(30, 32, 64, 0.35);
+  --radio: 22px;
+}
