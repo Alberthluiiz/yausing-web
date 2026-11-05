@@ -16,8 +16,8 @@
   },
 
   "imagenes": {
-    "portadaGrande": "img/foto-web-webp/35-fajas-de-colores.webp",
-    "portadaChica": "img/foto-web-webp/36-collar-dorado-de-hilos.webp",
+    "portadaGrande": "img/productos/35-fajas-de-colores.png",
+    "portadaChica": "img/productos/36-collar-dorado-de-hilos.png",
     "nosotros": "img/yausig-logo-vertical.svg"
   },
 
@@ -72,7 +72,7 @@
       "nombre": "Poncho tradicional",
       "categoria": "Ponchos",
       "descripcion": "Lana gruesa, colores vivos.",
-      "precio": 55,
+      "precio": 90,
       "foto": "img/productos/ponchos.png",
       "dibujo": false,
       "colores": ["#a71916", "#0b283a"]
@@ -81,7 +81,7 @@
       "nombre": "Poncho tradicional",
       "categoria": "Ponchos",
       "descripcion": "Lana gruesa, colores vivos.",
-      "precio": 55,
+      "precio": 28,
       "foto": "img/productos/01-ponchos-y-chales.png",
       "dibujo": false,
       "colores": ["#a71916", "#0b283a"]
@@ -90,7 +90,7 @@
       "nombre": "Blusa Bordada",
       "categoria": "Blusas",
       "descripcion": "Blusas Bordadas llanas y con mullos.",
-      "precio": 60,
+      "precio": 45,
       "foto": "img/productos/11-blusa-bordada-saco-rosado.png",
       "dibujo": false,
       "colores": ["#a71916", "#0b283a"]
@@ -172,26 +172,26 @@
   "ofertas": [
     {
       "nombre": "Combo caballero",
-      "descripcion": "Poncho + camisa cuello militar + pantalón blanco.",
-      "antes": 90,
-      "ahora": 75,
+      "descripcion": "Poncho + camisa cuello militar.",
+      "antes": 120,
+      "ahora": 110,
       "foto": "img/productos/ponchos.png",
       "color": "rojo"
     },
     {
-      "nombre": "Saco de lana",
-      "descripcion": "Llévate tu saco tejido con descuento este mes.",
-      "antes": 35,
-      "ahora": 28,
-      "foto": "img/productos/saco.png",
+      "nombre": "Blusa + Faja + Anaco + bolso",
+      "descripcion": "Llévate conjunto y armalo a tu gusto.",
+      "antes": 65,
+      "ahora": 60,
+      "foto": "img/productos/25-conjunto-blusa-bordada-y-falda.png",
       "color": "naranja"
     },
     {
       "nombre": "2 pantalones",
       "descripcion": "Elige 2 pantalones, blancos o de colores.",
-      "antes": 36,
-      "ahora": 27,
-      "foto": "img/ilustraciones/pantalon-color.svg",
+      "antes": 22,
+      "ahora": 16,
+      "foto": "img/productos/16-pantalon-de-rayas.png",
       "color": "verde"
     }
   ],
