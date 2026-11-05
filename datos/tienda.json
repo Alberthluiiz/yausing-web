@@ -16,31 +16,57 @@
   },
 
   "imagenes": {
-    "portadaGrande": "img/productos/anacos.png",
-    "portadaChica": "img/productos/ponchos.png",
+    "portadaGrande": "img/foto-web-webp/35-fajas-de-colores.webp",
+    "portadaChica": "img/foto-web-webp/36-collar-dorado-de-hilos.webp",
     "nosotros": "img/yausig-logo-vertical.svg"
   },
 
-  "categorias": ["Todos", "Sacos", "Ponchos", "Pantalones", "Camisas"],
+  "categorias": [
+    "Todos",
+    "Sacos",
+    "Ponchos",
+    "Pantalones",
+    "Camisas",
+    "Blusas",
+    "Collares"
+  ],
 
   "productos": [
     {
       "nombre": "Saco de lana tejido",
       "categoria": "Sacos",
-      "descripcion": "Abrigador, tejido a mano.",
-      "precio": 35,
-      "foto": "img/productos/saco.png",
+      "descripcion": "Sacos tejidos.",
+      "precio": 18,
+      "foto": "img/productos/23-saco-celeste-bordado.png",
       "dibujo": false,
       "colores": ["#c8a27a", "#6b4a35", "#1e2040"]
     },
     {
-      "nombre": "Saco con diseño andino",
+      "nombre": "Saco tipo chaqueta",
       "categoria": "Sacos",
-      "descripcion": "Con grecas tradicionales.",
-      "precio": 42,
-      "foto": "img/ilustraciones/saco.svg",
-      "dibujo": true,
-      "colores": ["#c75e15", "#a71916", "#0c6f71"]
+      "descripcion": "Sacos de tela tipo chaqueta.",
+      "precio": 22,
+      "foto": "img/productos/07-blusa-blanca-saco-cafe-faja.png",
+      "dibujo": false,
+      "colores": ["#c8a27a", "#6b4a35", "#1e2040"]
+    },
+    {
+      "nombre": "Saco de lana tejido",
+      "categoria": "Sacos",
+      "descripcion": "Abrigador, tejido a mano.",
+      "precio": 35,
+      "foto": "img/productos/02-blusas-y-sacos-colgados.png",
+      "dibujo": false,
+      "colores": ["#c8a27a", "#6b4a35", "#1e2040"]
+    },
+    {
+      "nombre": "Saco de tejidos",
+      "categoria": "Sacos",
+      "descripcion": "Abrigador, tejido.",
+      "precio": 38,
+      "foto": "img/productos/29-conjunto-saco-y-falda.png",
+      "dibujo": false,
+      "colores": ["#c8a27a", "#6b4a35", "#1e2040"]
     },
     {
       "nombre": "Poncho tradicional",
@@ -52,49 +78,94 @@
       "colores": ["#a71916", "#0b283a"]
     },
     {
-      "nombre": "Poncho de diario",
+      "nombre": "Poncho tradicional",
       "categoria": "Ponchos",
-      "descripcion": "Liviano y cómodo.",
-      "precio": 45,
-      "foto": "img/ilustraciones/poncho.svg",
-      "dibujo": true,
-      "colores": ["#0b283a", "#5f6174", "#c75e15"]
+      "descripcion": "Lana gruesa, colores vivos.",
+      "precio": 55,
+      "foto": "img/productos/01-ponchos-y-chales.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
     },
     {
-      "nombre": "Pantalón blanco",
-      "categoria": "Pantalones",
-      "descripcion": "Tela de liencillo, corte clásico.",
-      "precio": 15,
-      "foto": "img/ilustraciones/pantalon-blanco.svg",
-      "dibujo": true,
-      "colores": ["#ffffff"]
+      "nombre": "Blusa Bordada",
+      "categoria": "Blusas",
+      "descripcion": "Blusas Bordadas llanas y con mullos.",
+      "precio": 60,
+      "foto": "img/productos/11-blusa-bordada-saco-rosado.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
     },
     {
-      "nombre": "Pantalón de colores",
-      "categoria": "Pantalones",
-      "descripcion": "Varios colores para elegir.",
+      "nombre": "Blusa Bordada",
+      "categoria": "Blusas",
+      "descripcion": "Blusas Bordadas de Orlon",
+      "precio": 35,
+      "foto": "img/productos/14-blusa-bordada-saco-vino.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Blusa de Tela",
+      "categoria": "Blusas",
+      "descripcion": "Blusa de tela con randa.",
       "precio": 18,
-      "foto": "img/ilustraciones/pantalon-color.svg",
-      "dibujo": true,
-      "colores": ["#c75e15", "#0c6f71", "#0b283a", "#a71916"]
+      "foto": "img/productos/13-blusa-blanca-con-chalina.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
     },
     {
-      "nombre": "Camisa cuello militar blanca",
-      "categoria": "Camisas",
-      "descripcion": "Para hombre, fresca y elegante.",
-      "precio": 20,
-      "foto": "img/ilustraciones/camisa-blanca.svg",
-      "dibujo": true,
-      "colores": ["#ffffff"]
+      "nombre": "Cinta de colores",
+      "categoria": "Collares",
+      "descripcion": "Cinta para cabello varios colores",
+      "precio": 3.5,
+      "foto": "img/productos/15-cintas-de-colores.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
     },
     {
-      "nombre": "Camisa cuello militar de color",
-      "categoria": "Camisas",
-      "descripcion": "Para hombre, varios tonos.",
+      "nombre": "Collar",
+      "categoria": "Collares",
+      "descripcion": "Collares de colores",
+      "precio": 18,
+      "foto": "img/productos/24-collares-rojo-y-azul.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Pulseras",
+      "categoria": "Collares",
+      "descripcion": "Pulsera de colores",
+      "precio": 5,
+      "foto": "img/productos/26-pulseras-de-mullos.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Collar rosado perlas",
+      "categoria": "Collares",
+      "descripcion": "Collar Rosa con Dige",
       "precio": 22,
-      "foto": "img/ilustraciones/camisa-color.svg",
-      "dibujo": true,
-      "colores": ["#0c6f71", "#f59f16", "#1e2040"]
+      "foto": "img/productos/31-collar-perlas-rosadas.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Collar Dorado",
+      "categoria": "Collares",
+      "descripcion": "Collar Dorado",
+      "precio": 55,
+      "foto": "img/productos/38-collar-dorado.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
+    },
+    {
+      "nombre": "Camisa de Indu",
+      "categoria": "Camisas",
+      "descripcion": "Camisas de Indu varios colores",
+      "precio": 12,
+      "foto": "img/productos/17-camisa-bordada-hombre.png",
+      "dibujo": false,
+      "colores": ["#a71916", "#0b283a"]
     }
   ],
 
