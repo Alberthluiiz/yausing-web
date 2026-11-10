@@ -1,0 +1,288 @@
+/* =========================================================
+   productos.css · Sección Productos: filtros, tarjetas y precios
+   ========================================================= */
+
+/* ----- 9. PRODUCTOS ----- */
+/* Buscador (arriba de los filtros) */
+.buscador {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+.buscador .bi-search {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--suave);
+  pointer-events: none;
+}
+.buscador .form-control {
+  border-radius: 999px;
+  border-color: var(--borde);
+  padding: 12px 18px 12px 46px;
+}
+.buscador .form-control:focus {
+  border-color: var(--naranja);
+  box-shadow: 0 0 0 0.2rem rgba(199, 94, 21, 0.15);
+}
+
+.filtros {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.filtro {
+  border: 1px solid var(--borde);
+  background: var(--blanco);
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.filtro:hover {
+  border-color: var(--tinta);
+}
+.filtro.activo {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.producto {
+  height: 100%;
+  cursor: pointer;
+  background: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: 0 1px 0 var(--borde);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.producto:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra);
+}
+
+.producto-foto {
+  position: relative;
+  aspect-ratio: 4 / 4.2;
+  background-color: var(--hueso-2);
+  overflow: hidden;
+}
+.producto-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.producto:hover .producto-foto img {
+  transform: scale(1.06);
+}
+
+.producto-categoria {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--blanco);
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.producto-cuerpo {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.producto-cuerpo h3 {
+  font-family: var(--letra-titulo);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.producto-cuerpo p {
+  color: var(--suave);
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+
+/* Precio bonito: $ pequeño, número grande, centavos pequeños */
+.precio-fila {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px dashed var(--borde);
+}
+.precio small {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+.precio-valor {
+  font-family: var(--letra-titulo);
+  color: var(--rojo);
+  line-height: 1;
+  white-space: nowrap;
+}
+.precio-valor sup {
+  font-size: 1rem;
+  top: -1.1em;
+  margin-right: 2px;
+}
+.precio-valor strong {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+.precio-valor span {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.boton-pedir {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--whatsapp);
+  color: var(--blanco);
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.boton-pedir:hover {
+  transform: scale(1.1) rotate(-8deg);
+  color: var(--blanco);
+}
+
+/* Animación al cambiar de filtro */
+.producto-col {
+  animation: entrar 0.45s ease both;
+}
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Botón de la tarjeta (no es un enlace cuando abre el detalle) */
+button.boton-pedir {
+  border: 0;
+}
+
+/* Etiquetas pequeñas de tallas (S, M, L...) en la tarjeta */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.etiquetas span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  padding: 2px 9px;
+  color: var(--suave);
+}
+
+/* Cinta "Destacado" */
+.producto-destacado {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--amarillo);
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ----- Producto agotado ----- */
+/* Foto en gris y un poco transparente: se nota, pero se puede abrir */
+.producto.agotado .producto-foto img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+.producto.agotado .precio {
+  opacity: 0.55;
+}
+.producto-agotado {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--tinta);
+  color: var(--blanco);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Botón "Ver más prendas" */
+.ver-mas {
+  text-align: center;
+  margin-top: 36px;
+}
+.ver-mas-cuenta {
+  color: var(--suave);
+  font-weight: 400;
+}
+
+/* Mensaje cuando una categoría no tiene productos */
+.sin-productos {
+  text-align: center;
+  color: var(--suave);
+  padding: 40px 0;
+}
+
+/* ----- Circulitos de colores ----- */
+.circulo {
+  display: inline-block;
+  width: var(--tamano, 22px);
+  height: var(--tamano, 22px);
+  border-radius: 50%;
+  background: var(--color);
+  border: 3px solid var(--blanco);
+  outline: 1px solid var(--borde);
+  flex-shrink: 0;
+}
+.circulo.claro {
+  outline-color: #b9b2a6;
+}
+.circulo-texto {
+  font-size: 0.75rem;
+  color: var(--suave);
+  align-self: center;
+}
+/* En la tarjeta del producto */
+.colores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}

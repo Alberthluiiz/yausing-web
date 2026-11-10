@@ -1,0 +1,23 @@
+/* =========================================================
+   index.css · Junta todos los estilos, en este orden.
+   Para cambiar algo, abre el archivo de esa parte.
+   ========================================================= */
+
+@import "./variables.css"; /* Colores, letras y medidas */
+@import "./base.css"; /* Letras, secciones, franja de colores y botones */
+@import "./animaciones.css"; /* Animación al aparecer */
+
+/* Web pública */
+@import "./publico/menu.css";
+@import "./publico/portada.css";
+@import "./publico/nosotros.css";
+@import "./publico/productos.css";
+@import "./publico/ofertas.css";
+@import "./publico/galeria.css";
+@import "./publico/contacto.css";
+@import "./publico/pie.css";
+@import "./publico/ventana.css"; /* Detalle de producto, visor y "Mi pedido" */
+@import "./publico/responsive.css"; /* Ajustes para celular (siempre al final) */
+
+/* Panel de administración */
+@import "./admin/admin.css";

@@ -1,0 +1,14 @@
+/* =========================================================
+   animaciones.css · Animación cuando aparecen las secciones
+   ========================================================= */
+
+/* ----- 14. ANIMACIÓN AL BAJAR (la activa el hook useAparecer) ----- */
+.aparecer {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.aparecer.visible {
+  opacity: 1;
+  transform: none;
+}

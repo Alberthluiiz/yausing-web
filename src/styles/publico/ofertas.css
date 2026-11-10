@@ -1,0 +1,125 @@
+/* =========================================================
+   ofertas.css · Sección Ofertas y cuenta regresiva
+   ========================================================= */
+
+/* ----- 10. OFERTAS ----- */
+.reloj {
+  background: var(--tinta);
+  color: var(--blanco);
+  border-radius: var(--radio);
+  padding: 18px 22px;
+}
+.reloj > small {
+  display: block;
+  opacity: 0.75;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.reloj-numeros {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.reloj-numeros div {
+  flex: 1;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 8px 4px;
+}
+.reloj-numeros strong {
+  display: block;
+  font-family: var(--letra-titulo);
+  font-size: 1.9rem;
+  color: var(--amarillo);
+  line-height: 1.1;
+}
+.reloj-numeros span {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.oferta {
+  position: relative;
+  height: 100%;
+  background: var(--hueso);
+  border-radius: var(--radio);
+  padding: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.oferta:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra);
+}
+/* Barra de color arriba de cada oferta */
+.oferta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 6px;
+  background: var(--color-oferta);
+}
+.oferta-cabeza {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.oferta-foto {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--blanco);
+  background: var(--blanco);
+}
+.oferta-descuento {
+  margin-left: auto;
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  color: var(--blanco);
+  font-weight: 700;
+  font-size: 1.05rem;
+  background: var(--color-oferta);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); /* forma de rombo */
+}
+.oferta h3 {
+  font-family: var(--letra-titulo);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+.oferta p {
+  color: var(--suave);
+  margin-bottom: 18px;
+}
+/* "Válida hasta el 30 de noviembre" */
+.oferta-hasta {
+  display: block;
+  color: var(--color-oferta);
+  font-weight: 600;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+.oferta-precios {
+  margin-top: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.oferta-precios .precio-valor strong {
+  font-size: 2.6rem;
+}
+.oferta-precios del {
+  color: var(--suave);
+  font-size: 1.05rem;
+}

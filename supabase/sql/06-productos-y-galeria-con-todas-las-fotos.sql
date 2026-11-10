@@ -1,0 +1,10 @@
+-- =========================================================
+-- 06-productos-y-galeria-con-todas-las-fotos.sql  (10/11/2026)
+-- Se aplicó desde Supabase (migración "cargar_todas_las_fotos"):
+--   * Categorías nuevas: Conjuntos, Fajas, Telas y anacos, Accesorios
+--   * 32 productos nuevos, uno por cada foto de prenda
+--     (precios de REFERENCIA: Mary los ajusta en el panel)
+--   * 12 fotos de vitrinas y estantes en la Galería
+--   * Se arreglaron 3 fotos que ya no existían (1 producto y 2 ofertas)
+-- Para ver o cambiar todo esto, usa el panel: /admin
+-- =========================================================

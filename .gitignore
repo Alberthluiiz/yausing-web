@@ -1,3 +1,25 @@
-# Archivos que NO se suben a GitHub
-# El boceto de Illustrator se queda solo en tu computadora
-boceto-illustrator/
+# =========================================================
+# .gitignore · Archivos que NO se suben a GitHub
+# =========================================================
+
+# Claves y configuración privada (¡nunca subir!)
+.env
+.env.*
+!.env.example
+
+# Programas descargados por npm (se vuelven a instalar con "npm install")
+node_modules/
+
+# La web empaquetada (Netlify la crea sola)
+dist/
+
+# Registros y archivos del sistema / editor
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.netlify/
+
+# Diseños pesados que se quedan solo en tu PC
+*.ai
+*.zip

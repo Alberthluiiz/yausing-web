@@ -1,0 +1,3 @@
+# Los buscadores pueden ver la tienda, pero no el panel de administración
+User-agent: *
+Disallow: /admin
