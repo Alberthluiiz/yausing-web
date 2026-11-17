@@ -54,7 +54,9 @@ export default function Inicio() {
 
   if (cargando && !datos) return <PantallaCargando />;
 
-  if (error || !datos) {
+  // Sin datos (ni nuevos ni guardados): se muestra el error.
+  // Si hay datos guardados de la última visita, se siguen mostrando.
+  if (!datos) {
     return (
       <div className="no-encontrada">
         <div>

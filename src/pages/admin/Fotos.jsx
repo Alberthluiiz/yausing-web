@@ -5,13 +5,15 @@
 //   Sirve para pasar de una vez las fotos que ya tenías
 //   (carpeta img/productos de la web anterior).
 // - Se puede copiar el nombre o borrar una foto que ya no se usa.
+// - "Crear miniaturas" hace la versión chica de las fotos que
+//   aún no la tienen (la web carga más rápido en el celular).
 // =========================================================
 import { useCallback, useEffect, useState } from "react";
 import Aviso from "../../components/admin/Aviso";
 import Cargando from "../../components/comunes/Cargando";
 import Foto from "../../components/comunes/Foto";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
-import { borrarFoto, listarFotos, subirFotoConSuNombre } from "../../supabase/fotos";
+import { borrarFoto, crearMiniaturasQueFaltan, listarFotos, subirFotoConSuNombre } from "../../supabase/fotos";
 import { TIPOS_FOTO } from "../../utils/constantes";
 import { mensajeDeError } from "../../utils/errores";
 
@@ -56,10 +58,33 @@ export default function Fotos() {
     setProgreso(null);
     setAviso(
       fallidas.length
-        ? { tipo: "error", texto: `No se pudieron subir: ${fallidas.join(", ")} (revisa que sean JPG, PNG o WEBP de menos de 5 MB).` }
+        ? {
+            tipo: "error",
+            texto: `No se pudieron subir: ${fallidas.join(", ")} (revisa que sean JPG, PNG o WEBP de menos de 5 MB).`,
+          }
         : { tipo: "ok", texto: `¡Listo! Se subieron ${archivos.length} foto(s).` },
     );
     cargar();
+  }
+
+  async function crearMiniaturas() {
+    try {
+      const { creadas, fallidas, total } = await crearMiniaturasQueFaltan(setProgreso);
+      setAviso(
+        total === 0
+          ? { tipo: "ok", texto: "Todas las fotos ya tienen su miniatura." }
+          : fallidas
+            ? {
+                tipo: "error",
+                texto: `Se crearon ${creadas} miniatura(s); ${fallidas} no se pudieron. Vuelve a intentarlo.`,
+              }
+            : { tipo: "ok", texto: `¡Listo! Se crearon ${creadas} miniatura(s).` },
+      );
+    } catch (e) {
+      setAviso({ tipo: "error", texto: mensajeDeError(e) });
+    } finally {
+      setProgreso(null);
+    }
   }
 
   async function quitar(foto) {
@@ -80,16 +105,33 @@ export default function Fotos() {
           <h1 className="admin-titulo">Fotos</h1>
           <p className="text-secondary mb-0">{fotos.length} foto(s) guardadas.</p>
         </div>
-        <label className={`btn btn-rojo rounded-pill px-4 ${progreso ? "disabled" : ""}`}>
-          {progreso ? (
-            `Subiendo ${progreso.hechas} de ${progreso.total}...`
-          ) : (
-            <>
-              <i className="bi bi-cloud-arrow-up me-1" /> Subir varias fotos
-            </>
-          )}
-          <input type="file" accept={TIPOS_FOTO.join(",")} multiple hidden disabled={Boolean(progreso)} onChange={subirVarias} />
-        </label>
+        <div className="d-flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="btn btn-outline-dark rounded-pill"
+            onClick={crearMiniaturas}
+            disabled={Boolean(progreso)}
+          >
+            <i className="bi bi-aspect-ratio me-1" /> Crear miniaturas que faltan
+          </button>
+          <label className={`btn btn-rojo rounded-pill px-4 ${progreso ? "disabled" : ""}`}>
+            {progreso ? (
+              `Trabajando ${progreso.hechas} de ${progreso.total}...`
+            ) : (
+              <>
+                <i className="bi bi-cloud-arrow-up me-1" /> Subir varias fotos
+              </>
+            )}
+            <input
+              type="file"
+              accept={TIPOS_FOTO.join(",")}
+              multiple
+              hidden
+              disabled={Boolean(progreso)}
+              onChange={subirVarias}
+            />
+          </label>
+        </div>
       </div>
       <Aviso aviso={aviso} alCerrar={() => setAviso(null)} />
 
@@ -102,14 +144,19 @@ export default function Fotos() {
           <div className="rejilla-fotos">
             {fotos.map((foto) => (
               <figure key={foto.ruta}>
-                <Foto ruta={foto.ruta} alt={foto.nombre} />
+                <Foto ruta={foto.ruta} alt={foto.nombre} miniatura />
                 <figcaption className="d-flex align-items-start justify-content-between gap-1">
                   <span>
                     {foto.nombre}
                     <br />
                     <span className="text-secondary">{foto.pesoKb} KB</span>
                   </span>
-                  <button type="button" className="btn btn-sm btn-link text-danger p-0" onClick={() => quitar(foto)} aria-label={`Borrar ${foto.nombre}`}>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-link text-danger p-0"
+                    onClick={() => quitar(foto)}
+                    aria-label={`Borrar ${foto.nombre}`}
+                  >
                     <i className="bi bi-trash3" />
                   </button>
                 </figcaption>

@@ -10,6 +10,7 @@ import Foto from "../comunes/Foto";
 import Precio from "../comunes/Precio";
 import Circulo from "../comunes/Circulo";
 import { leerTalla, precioDesde, precioVariable } from "../../utils/tallas";
+import { contarPedido } from "../../supabase/pedidos";
 
 export default function TarjetaProducto({ producto, categoria, enlaceDirecto, alAbrir }) {
   // Si está agotado, el botón siempre abre el detalle (no pide directo)
@@ -34,7 +35,7 @@ export default function TarjetaProducto({ producto, categoria, enlaceDirecto, al
         aria-label={`Ver ${producto.nombre}${producto.agotado ? " (agotado)" : ""}`}
       >
         <div className="producto-foto">
-          <Foto ruta={producto.foto_ruta} alt={producto.nombre} />
+          <Foto ruta={producto.foto_ruta} alt={producto.nombre} miniatura />
           {categoria && <span className="producto-categoria">{categoria}</span>}
           {producto.agotado ? (
             <span className="producto-agotado">Agotado</span>
@@ -85,7 +86,10 @@ export default function TarjetaProducto({ producto, categoria, enlaceDirecto, al
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Pedir ${producto.nombre} por WhatsApp`}
-                onClick={(evento) => evento.stopPropagation()}
+                onClick={(evento) => {
+                  evento.stopPropagation();
+                  contarPedido(producto.id);
+                }}
               >
                 <i className="bi bi-whatsapp" />
               </a>

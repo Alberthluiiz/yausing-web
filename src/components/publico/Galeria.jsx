@@ -62,7 +62,7 @@ export default function Galeria({ tienda, fotos }) {
                 onClick={() => setAbierta(indice)}
                 aria-label={`Ver foto: ${item.texto || "foto del local"}`}
               >
-                <Foto ruta={item.foto_ruta} alt={item.texto || "Foto del local"} />
+                <Foto ruta={item.foto_ruta} alt={item.texto || "Foto del local"} miniatura={tamano !== "grande"} />
                 {item.texto && (
                   <span>
                     <i className="bi bi-zoom-in me-1" />

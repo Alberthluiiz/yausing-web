@@ -16,6 +16,12 @@ export const MAXIMO_MB_FOTO = 5;
 // Al subir una foto desde el panel se achica a este ancho (en píxeles)
 export const ANCHO_MAXIMO_FOTO = 1400;
 
+// Miniaturas: copia chica de cada foto para las tarjetas y la galería
+// (carga mucho más rápido en el celular). La foto grande se usa en el detalle.
+// productos/saco.webp → miniaturas/saco.webp
+export const CARPETA_MINIATURAS = "miniaturas";
+export const ANCHO_MINIATURA = 600;
+
 // Colores permitidos para las ofertas (variables de styles/variables.css)
 export const COLORES_OFERTA = ["rojo", "naranja", "amarillo", "verde", "azul"];
 

@@ -3,7 +3,8 @@
 // (arriba en el celular) y la página elegida a la derecha.
 // =========================================================
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/yausig-logo.svg";
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el .svg queda como original)
+import "../../styles/admin/admin.css"; // estilos del panel (solo se descargan aquí)
 import { cerrarSesion } from "../../supabase/auth";
 import { useSesion } from "../../hooks/useSesion";
 

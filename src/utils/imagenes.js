@@ -9,9 +9,10 @@
 
 import { ANCHO_MAXIMO_FOTO } from "./constantes";
 
-export async function prepararFoto(archivo) {
+// anchoMaximo: ANCHO_MAXIMO_FOTO para la foto normal, ANCHO_MINIATURA para la chica
+export async function prepararFoto(archivo, anchoMaximo = ANCHO_MAXIMO_FOTO, calidad = 0.82) {
   const imagen = await createImageBitmap(archivo);
-  const escala = Math.min(1, ANCHO_MAXIMO_FOTO / imagen.width);
+  const escala = Math.min(1, anchoMaximo / imagen.width);
   const ancho = Math.round(imagen.width * escala);
   const alto = Math.round(imagen.height * escala);
 
@@ -21,7 +22,7 @@ export async function prepararFoto(archivo) {
   lienzo.getContext("2d").drawImage(imagen, 0, 0, ancho, alto);
   imagen.close();
 
-  const blob = await new Promise((resolver) => lienzo.toBlob(resolver, "image/webp", 0.82));
+  const blob = await new Promise((resolver) => lienzo.toBlob(resolver, "image/webp", calidad));
   // Si el navegador no sabe crear WEBP, se sube la foto original
   return blob && blob.type === "image/webp" ? blob : archivo;
 }

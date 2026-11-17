@@ -122,6 +122,32 @@
   color: var(--suave);
 }
 
+/* Lista "Lo más pedido" del inicio del panel */
+.mas-pedidos {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+.mas-pedidos li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--borde);
+}
+.mas-pedidos li:last-child {
+  border-bottom: 0;
+}
+.mas-pedidos li > * {
+  vertical-align: middle;
+}
+.mas-pedidos span {
+  display: inline-block;
+  width: calc(100% - 3rem);
+}
+.mas-pedidos strong {
+  display: inline-block;
+  width: 3rem;
+  text-align: right;
+  color: var(--rojo);
+}
+
 /* Lista de productos / ofertas */
 .fila-admin {
   display: flex;

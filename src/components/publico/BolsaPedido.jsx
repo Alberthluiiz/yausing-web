@@ -10,6 +10,7 @@ import { CANTIDAD_MAXIMA } from "../../utils/constantes";
 import { precioTexto } from "../../utils/formato";
 import { precioDeTalla } from "../../utils/tallas";
 import { enlaceWhatsapp, mensajePedido } from "../../utils/whatsapp";
+import { contarPedido } from "../../supabase/pedidos";
 
 export default function BolsaPedido({ tienda, productos }) {
   const { items, abierto, cerrar, cambiarCantidad, quitar, vaciar } = usePedido();
@@ -94,6 +95,7 @@ export default function BolsaPedido({ tienda, productos }) {
                 href={enlaceWhatsapp(tienda.whatsapp, mensajePedido(tienda.nombre, lineas))}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => contarPedido(...lineas.map((linea) => linea.id))}
               >
                 <i className="bi bi-whatsapp me-2" />
                 Enviar pedido por WhatsApp

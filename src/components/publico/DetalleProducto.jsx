@@ -18,6 +18,7 @@ import { CANTIDAD_MAXIMA } from "../../utils/constantes";
 import { precioTexto } from "../../utils/formato";
 import { leerTalla, precioDeTalla, precioDesde, precioVariable } from "../../utils/tallas";
 import { enlaceWhatsapp, mensajeAgotado, mensajePedidoProducto } from "../../utils/whatsapp";
+import { contarPedido } from "../../supabase/pedidos";
 
 // Botones para elegir una opción (talla o color)
 function Opciones({ titulo, lista, elegida, alElegir }) {
@@ -160,7 +161,13 @@ export default function DetalleProducto({ producto, categoria, tienda, alCerrar 
                     {aviso}
                   </button>
                 ) : (
-                  <a className="btn btn-whatsapp btn-lg rounded-pill" href={enlace} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className="btn btn-whatsapp btn-lg rounded-pill"
+                    href={enlace}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => contarPedido(producto.id)}
+                  >
                     <i className="bi bi-whatsapp me-2" />
                     Pedir por WhatsApp
                   </a>

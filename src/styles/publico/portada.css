@@ -5,7 +5,7 @@
 /* ----- 6. PORTADA ----- */
 .portada {
   background: var(--blanco);
-  padding: 28px 0 56px;
+  padding: 28px 0 0; /* abajo no hace falta: "Nosotros" ya trae su espacio */
 }
 
 /* Tarjeta grande con esquinas redondeadas */
@@ -264,7 +264,7 @@
 /* ----- Tablet y celular ----- */
 @media (max-width: 991.98px) {
   .portada {
-    padding: 16px 0 40px;
+    padding: 16px 0 0;
   }
   /* La foto va arriba y los textos abajo */
   .portada-tarjeta {
@@ -314,10 +314,6 @@
 }
 
 @media (max-width: 575.98px) {
-  .portada .container {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
   .portada-fotos {
     height: 300px;
   }
