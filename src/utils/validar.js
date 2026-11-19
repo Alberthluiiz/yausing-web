@@ -6,7 +6,7 @@
 // (La base de datos también revisa todo otra vez, por si acaso.)
 // =========================================================
 
-import { COLORES_OFERTA, TAMANOS_GALERIA, TIPOS_FOTO, MAXIMO_MB_FOTO } from "./constantes";
+import { COLORES_OFERTA, TAMANOS_GALERIA, TIPOS_FOTO, EXTENSIONES_FOTO, MAXIMO_MB_FOTO } from "./constantes";
 import { enlaceSeguro, mapaSeguro, soloNumeros } from "./seguridad";
 import { diaValido } from "./fechas";
 
@@ -85,7 +85,12 @@ export function validarTienda(datos) {
 // Revisa un archivo de foto antes de subirlo
 export function validarArchivoFoto(archivo) {
   if (!archivo) return "No elegiste ninguna foto.";
-  if (!TIPOS_FOTO.includes(archivo.type)) return "Solo se aceptan fotos JPG, PNG o WEBP.";
+  // El tipo lo dice el navegador según la extensión; revisamos las dos.
+  // (Que sea una imagen de verdad lo revisa esImagenReal en imagenes.js)
+  const extension = String(archivo.name ?? "").split(".").pop().toLowerCase();
+  if (!TIPOS_FOTO.includes(archivo.type) || !EXTENSIONES_FOTO.includes(extension)) {
+    return "Solo se aceptan fotos JPG, PNG o WEBP.";
+  }
   if (archivo.size > MAXIMO_MB_FOTO * 1024 * 1024) return `La foto pesa más de ${MAXIMO_MB_FOTO} MB.`;
   return "";
 }

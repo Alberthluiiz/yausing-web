@@ -16,6 +16,9 @@ export function mensajeDeError(error, mensajePorDefecto = "Algo salió mal. Int�
 
   if (texto.includes("invalid login credentials")) return "Correo o contraseña incorrectos.";
   if (texto.includes("email not confirmed")) return "Esta cuenta aún no está confirmada.";
+  if (texto.includes("totp") || texto.includes("mfa") || error?.code === "mfa_verification_failed") {
+    return "El código no es correcto. Prueba con el número nuevo que muestra tu celular.";
+  }
   if (codigo === 429 || texto.includes("rate limit") || texto.includes("too many")) {
     return "Demasiados intentos. Espera unos minutos y vuelve a probar.";
   }

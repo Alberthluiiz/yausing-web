@@ -26,6 +26,7 @@ const GaleriaAdmin = lazy(() => import("../pages/admin/Galeria"));
 const CategoriasAdmin = lazy(() => import("../pages/admin/Categorias"));
 const FotosAdmin = lazy(() => import("../pages/admin/Fotos"));
 const TiendaAdmin = lazy(() => import("../pages/admin/Tienda"));
+const SeguridadAdmin = lazy(() => import("../pages/admin/Seguridad"));
 
 // Las páginas públicas comparten los datos de la tienda
 function LayoutPublico() {
@@ -58,6 +59,7 @@ export default function AppRouter() {
               <Route path="categorias" element={<CategoriasAdmin />} />
               <Route path="fotos" element={<FotosAdmin />} />
               <Route path="tienda" element={<TiendaAdmin />} />
+              <Route path="seguridad" element={<SeguridadAdmin />} />
             </Route>
           </Route>
 

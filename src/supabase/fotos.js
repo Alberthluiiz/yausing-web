@@ -11,9 +11,18 @@
 import { supabase } from "./cliente";
 import { DEPOSITO_FOTOS, CARPETA_FOTOS, CARPETA_MINIATURAS, ANCHO_MINIATURA } from "../utils/constantes";
 import { aSlug } from "../utils/formato";
-import { prepararFoto } from "../utils/imagenes";
+import { esImagenReal, prepararFoto } from "../utils/imagenes";
 import { rutaFotoValida } from "../utils/seguridad";
 import { validarArchivoFoto } from "../utils/validar";
+
+// SEGURIDAD: antes de subir, revisa tipo, extensión, peso (5 MB)
+// y que el archivo sea una imagen de verdad. (El depósito de
+// Supabase también rechaza lo que no sea JPG/PNG/WEBP de 5 MB o menos.)
+async function revisarFoto(archivo) {
+  const problema = validarArchivoFoto(archivo);
+  if (problema) throw new Error(problema);
+  if (!(await esImagenReal(archivo))) throw new Error("La foto no es una imagen JPG, PNG o WEBP de verdad.");
+}
 
 const deposito = () => supabase.storage.from(DEPOSITO_FOTOS);
 
@@ -56,8 +65,7 @@ async function subirMiniatura(archivo, ruta) {
 // Sube UNA foto nueva (achicada y en WEBP). Devuelve su ruta.
 // "nombreBase" sirve para que el archivo tenga un nombre entendible.
 export async function subirFoto(archivo, nombreBase = "foto") {
-  const problema = validarArchivoFoto(archivo);
-  if (problema) throw new Error(problema);
+  await revisarFoto(archivo);
 
   const fotoLista = await prepararFoto(archivo);
   const extension = fotoLista.type === "image/webp" ? "webp" : archivo.name.split(".").pop().toLowerCase();
@@ -75,17 +83,20 @@ export async function subirFoto(archivo, nombreBase = "foto") {
 }
 
 // Sube una foto SIN cambiarle el nombre (para pasar las fotos que ya tenías).
-// Ej: "23-saco-celeste-bordado.png" → productos/23-saco-celeste-bordado.png
+// Ej: "23-saco-celeste-bordado.png" → productos/23-saco-celeste-bordado.webp
+// También se achica y pasa a WEBP: así se borran los datos ocultos
+// del celular (ubicación GPS, modelo...) igual que en subirFoto.
 export async function subirFotoConSuNombre(archivo) {
-  const problema = validarArchivoFoto(archivo);
-  if (problema) throw new Error(problema);
+  await revisarFoto(archivo);
 
-  const [nombre, ...resto] = archivo.name.toLowerCase().split(".");
-  const extension = resto.pop();
-  const ruta = `${CARPETA_FOTOS}/${aSlug(nombre)}.${extension}`;
+  const nombreCompleto = archivo.name.toLowerCase();
+  const nombre = nombreCompleto.slice(0, nombreCompleto.lastIndexOf(".")); // "a.b.png" → "a.b"
+  const fotoLista = await prepararFoto(archivo);
+  const extension = fotoLista.type === "image/webp" ? "webp" : nombreCompleto.split(".").pop();
+  const ruta = `${CARPETA_FOTOS}/${aSlug(nombre) || `foto-${Date.now()}`}.${extension}`;
 
-  const { error } = await deposito().upload(ruta, archivo, {
-    contentType: archivo.type,
+  const { error } = await deposito().upload(ruta, fotoLista, {
+    contentType: fotoLista.type || archivo.type,
     cacheControl: "3600",
     upsert: true, // si ya existe, la reemplaza
   });

@@ -17,6 +17,7 @@ const OPCIONES = [
   { a: "/admin/categorias", icono: "bi-tags", texto: "Categorías" },
   { a: "/admin/fotos", icono: "bi-cloud-arrow-up", texto: "Fotos" },
   { a: "/admin/tienda", icono: "bi-shop", texto: "Datos de la tienda" },
+  { a: "/admin/seguridad", icono: "bi-shield-lock", texto: "Seguridad" },
 ];
 
 export default function LayoutAdmin() {

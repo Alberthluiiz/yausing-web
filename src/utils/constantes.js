@@ -11,6 +11,10 @@ export const CARPETA_FOTOS = "productos";
 
 // Fotos: tipos permitidos y tamaño máximo (igual que en Supabase)
 export const TIPOS_FOTO = ["image/jpeg", "image/png", "image/webp"];
+export const EXTENSIONES_FOTO = ["jpg", "jpeg", "png", "webp"];
+// Fotos de más de 50 megapíxeles se rechazan (ninguna foto real de
+// celular llega a eso; evita que el navegador se cuelgue)
+export const MAXIMO_PIXELES_FOTO = 50_000_000;
 export const MAXIMO_MB_FOTO = 5;
 
 // Al subir una foto desde el panel se achica a este ancho (en píxeles)
