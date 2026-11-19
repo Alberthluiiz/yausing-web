@@ -1,16 +1,18 @@
 // =========================================================
 // Galeria.jsx (panel) · Fotos de la sección "Galería"
 // =========================================================
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import Aviso from "../../components/admin/Aviso";
+import BotonesFormulario from "../../components/admin/BotonesFormulario";
 import Campo from "../../components/admin/Campo";
 import CampoFoto from "../../components/admin/CampoFoto";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
+import { useNuevoDesdeEnlace } from "../../hooks/useNuevoDesdeEnlace";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { galeria as tablaGaleria } from "../../supabase/consultas";
 import { validarFotoGaleria } from "../../utils/validar";
@@ -22,22 +24,16 @@ const TAMANOS = [
   { valor: "grande", texto: "Grande (ocupa 4 espacios)" },
 ];
 
-function Formulario({ inicial, alGuardar, alCancelar }) {
-  const [datos, setDatos] = useState(inicial);
-  const [errores, setErrores] = useState({});
-  const [guardando, setGuardando] = useState(false);
-  const cambiar = (nombre, valor) => setDatos((anterior) => ({ ...anterior, [nombre]: valor }));
+// Limpia los datos antes de guardar
+const preparar = (datos) => ({ ...datos, texto: datos.texto?.trim() || null, orden: Number(datos.orden) || 0 });
 
-  async function enviar(evento) {
-    evento.preventDefault();
-    const encontrados = validarFotoGaleria(datos);
-    setErrores(encontrados);
-    if (Object.keys(encontrados).length) return;
-    setGuardando(true);
-    const listo = await alGuardar({ ...datos, texto: datos.texto?.trim() || null, orden: Number(datos.orden) || 0 });
-    setGuardando(false);
-    if (listo) alCancelar();
-  }
+function Formulario({ inicial, alGuardar, alCancelar }) {
+  const { datos, errores, guardando, cambiar, enviar } = useFormulario(inicial, {
+    validar: validarFotoGaleria,
+    preparar,
+    alGuardar,
+    alTerminar: alCancelar,
+  });
 
   return (
     <form onSubmit={enviar} noValidate>
@@ -47,14 +43,7 @@ function Formulario({ inicial, alGuardar, alCancelar }) {
       <Campo etiqueta="Texto (aparece al pasar el mouse)" nombre="texto" valor={datos.texto} alCambiar={cambiar} error={errores.texto} maxLength={80} />
       <Campo etiqueta="Tamaño" nombre="tamano" tipo="select" valor={datos.tamano} alCambiar={cambiar} error={errores.tamano} opciones={TAMANOS} />
       <Interruptor etiqueta="Mostrar en la web" nombre="publicado" valor={datos.publicado} alCambiar={cambiar} />
-      <div className="d-flex gap-2 justify-content-end">
-        <button type="button" className="btn btn-light rounded-pill px-4" onClick={alCancelar}>
-          Cancelar
-        </button>
-        <button type="submit" className="btn btn-rojo rounded-pill px-4" disabled={guardando}>
-          {guardando ? "Guardando..." : "Guardar"}
-        </button>
-      </div>
+      <BotonesFormulario guardando={guardando} alCancelar={alCancelar} />
     </form>
   );
 }
@@ -63,14 +52,7 @@ export default function Galeria() {
   useTituloPagina("Galería");
   const lista = useListaAdmin(tablaGaleria);
   const [editando, setEditando] = useState(null);
-  const [parametros, setParametros] = useSearchParams();
-
-  useEffect(() => {
-    if (parametros.get("nuevo")) {
-      setEditando(VACIO);
-      setParametros({}, { replace: true });
-    }
-  }, [parametros, setParametros]);
+  useNuevoDesdeEnlace(setEditando, VACIO); // ?nuevo=1 abre el formulario vacío
 
   return (
     <>
@@ -83,7 +65,7 @@ export default function Galeria() {
           <i className="bi bi-plus-lg me-1" /> Nueva foto
         </button>
       </div>
-      <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />
+      <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
       <div className="admin-caja">
         {lista.cargando ? (
           <Cargando />
@@ -110,7 +92,7 @@ export default function Galeria() {
       {editando && (
         <Ventana titulo="Foto de la galería" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />}
+            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario inicial={editando} alGuardar={(datos) => lista.guardar(datos, editando.id)} alCancelar={() => setEditando(null)} />
           </div>
         </Ventana>

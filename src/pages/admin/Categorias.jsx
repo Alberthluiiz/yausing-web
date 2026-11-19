@@ -4,11 +4,13 @@
 // =========================================================
 import { useState } from "react";
 import Aviso from "../../components/admin/Aviso";
+import BotonesFormulario from "../../components/admin/BotonesFormulario";
 import Campo from "../../components/admin/Campo";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { categorias as tablaCategorias } from "../../supabase/consultas";
@@ -16,36 +18,23 @@ import { validarCategoria } from "../../utils/validar";
 
 const VACIO = { nombre: "", orden: 0, activa: true };
 
-function Formulario({ inicial, alGuardar, alCancelar }) {
-  const [datos, setDatos] = useState(inicial);
-  const [errores, setErrores] = useState({});
-  const [guardando, setGuardando] = useState(false);
-  const cambiar = (nombre, valor) => setDatos((anterior) => ({ ...anterior, [nombre]: valor }));
+// Limpia los datos antes de guardar
+const preparar = (datos) => ({ ...datos, nombre: datos.nombre.trim(), orden: Number(datos.orden) || 0 });
 
-  async function enviar(evento) {
-    evento.preventDefault();
-    const encontrados = validarCategoria(datos);
-    setErrores(encontrados);
-    if (Object.keys(encontrados).length) return;
-    setGuardando(true);
-    const listo = await alGuardar({ ...datos, nombre: datos.nombre.trim(), orden: Number(datos.orden) || 0 });
-    setGuardando(false);
-    if (listo) alCancelar();
-  }
+function Formulario({ inicial, alGuardar, alCancelar }) {
+  const { datos, errores, guardando, cambiar, enviar } = useFormulario(inicial, {
+    validar: validarCategoria,
+    preparar,
+    alGuardar,
+    alTerminar: alCancelar,
+  });
 
   return (
     <form onSubmit={enviar} noValidate>
       <h2 className="h4 admin-titulo mb-3">{inicial.id ? "Editar categoría" : "Nueva categoría"}</h2>
       <Campo etiqueta="Nombre" nombre="nombre" valor={datos.nombre} alCambiar={cambiar} error={errores.nombre} maxLength={40} ayuda="Ej: Alpargatas" />
       <Interruptor etiqueta="Mostrar en la web" nombre="activa" valor={datos.activa} alCambiar={cambiar} />
-      <div className="d-flex gap-2 justify-content-end">
-        <button type="button" className="btn btn-light rounded-pill px-4" onClick={alCancelar}>
-          Cancelar
-        </button>
-        <button type="submit" className="btn btn-rojo rounded-pill px-4" disabled={guardando}>
-          {guardando ? "Guardando..." : "Guardar"}
-        </button>
-      </div>
+      <BotonesFormulario guardando={guardando} alCancelar={alCancelar} />
     </form>
   );
 }
@@ -66,7 +55,7 @@ export default function Categorias() {
           <i className="bi bi-plus-lg me-1" /> Nueva categoría
         </button>
       </div>
-      <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />
+      <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
       <div className="admin-caja">
         {lista.cargando ? (
           <Cargando />
@@ -92,7 +81,7 @@ export default function Categorias() {
       {editando && (
         <Ventana titulo="Categoría" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />}
+            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario inicial={editando} alGuardar={(datos) => lista.guardar(datos, editando.id)} alCancelar={() => setEditando(null)} />
           </div>
         </Ventana>

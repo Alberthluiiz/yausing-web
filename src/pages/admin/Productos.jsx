@@ -2,8 +2,8 @@
 // Productos.jsx (panel) · Agregar, editar, esconder y borrar productos
 // =========================================================
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import Aviso from "../../components/admin/Aviso";
+import BotonesFormulario from "../../components/admin/BotonesFormulario";
 import Campo from "../../components/admin/Campo";
 import CampoFoto from "../../components/admin/CampoFoto";
 import FilaAdmin from "../../components/admin/FilaAdmin";
@@ -12,7 +12,9 @@ import SelectorColores from "../../components/admin/SelectorColores";
 import SelectorTallas from "../../components/admin/SelectorTallas";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
+import { useNuevoDesdeEnlace } from "../../hooks/useNuevoDesdeEnlace";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { categorias as tablaCategorias, productos as tablaProductos } from "../../supabase/consultas";
 import { precioTexto } from "../../utils/formato";
@@ -34,32 +36,25 @@ const VACIO = {
   orden: 0,
 };
 
+// Limpia los datos antes de guardar
+const preparar = (datos) => ({
+  ...datos,
+  nombre: datos.nombre.trim(),
+  descripcion: datos.descripcion?.trim() || null,
+  precio: Number(datos.precio),
+  categoria_id: Number(datos.categoria_id),
+  tallas: datos.tallas.filter((t) => t.split(":")[0].trim()).slice(0, 12), // quita tallas sin nombre
+  colores: datos.colores.slice(0, 12),
+  orden: Number(datos.orden) || 0,
+});
+
 function Formulario({ inicial, categorias, alGuardar, alCancelar }) {
-  const [datos, setDatos] = useState(inicial);
-  const [errores, setErrores] = useState({});
-  const [guardando, setGuardando] = useState(false);
-  const cambiar = (nombre, valor) => setDatos((anterior) => ({ ...anterior, [nombre]: valor }));
-
-  async function enviar(evento) {
-    evento.preventDefault();
-    const encontrados = validarProducto(datos);
-    setErrores(encontrados);
-    if (Object.keys(encontrados).length) return;
-
-    setGuardando(true);
-    const listo = await alGuardar({
-      ...datos,
-      nombre: datos.nombre.trim(),
-      descripcion: datos.descripcion?.trim() || null,
-      precio: Number(datos.precio),
-      categoria_id: Number(datos.categoria_id),
-      tallas: datos.tallas.filter((t) => t.split(":")[0].trim()).slice(0, 12), // quita tallas sin nombre
-      colores: datos.colores.slice(0, 12),
-      orden: Number(datos.orden) || 0,
-    });
-    setGuardando(false);
-    if (listo) alCancelar();
-  }
+  const { datos, errores, guardando, cambiar, enviar } = useFormulario(inicial, {
+    validar: validarProducto,
+    preparar,
+    alGuardar,
+    alTerminar: alCancelar,
+  });
 
   return (
     <form onSubmit={enviar} noValidate>
@@ -110,14 +105,7 @@ function Formulario({ inicial, categorias, alGuardar, alCancelar }) {
           <Interruptor etiqueta="Agotado (se ve en gris y al final)" nombre="agotado" valor={datos.agotado} alCambiar={cambiar} />
         </div>
       </div>
-      <div className="d-flex gap-2 justify-content-end">
-        <button type="button" className="btn btn-light rounded-pill px-4" onClick={alCancelar}>
-          Cancelar
-        </button>
-        <button type="submit" className="btn btn-rojo rounded-pill px-4" disabled={guardando}>
-          {guardando ? "Guardando..." : "Guardar"}
-        </button>
-      </div>
+      <BotonesFormulario guardando={guardando} alCancelar={alCancelar} />
     </form>
   );
 }
@@ -128,19 +116,11 @@ export default function Productos() {
   const [categorias, setCategorias] = useState([]);
   const [editando, setEditando] = useState(null); // producto abierto en el formulario
   const [buscar, setBuscar] = useState("");
-  const [parametros, setParametros] = useSearchParams();
+  useNuevoDesdeEnlace(setEditando, VACIO); // ?nuevo=1 (desde el inicio del panel) abre el formulario vacío
 
   useEffect(() => {
     tablaCategorias.listar().then(setCategorias).catch(() => setCategorias([]));
   }, []);
-
-  // Si llega con ?nuevo=1 (desde el inicio del panel), abre el formulario vacío
-  useEffect(() => {
-    if (parametros.get("nuevo")) {
-      setEditando(VACIO);
-      setParametros({}, { replace: true });
-    }
-  }, [parametros, setParametros]);
 
   const nombreCategoria = useMemo(() => Object.fromEntries(categorias.map((c) => [c.id, c.nombre])), [categorias]);
   const visibles = lista.filas.filter((p) => p.nombre.toLowerCase().includes(buscar.trim().toLowerCase()));
@@ -172,7 +152,7 @@ export default function Productos() {
         </button>
       </div>
 
-      <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />
+      <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
 
       <div className="admin-caja">
         <input
@@ -221,7 +201,7 @@ export default function Productos() {
       {editando && (
         <Ventana titulo="Producto" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />}
+            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario
               inicial={editando}
               categorias={categorias}

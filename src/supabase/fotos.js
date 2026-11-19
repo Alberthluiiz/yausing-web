@@ -14,14 +14,15 @@ import { aSlug } from "../utils/formato";
 import { esImagenReal, prepararFoto } from "../utils/imagenes";
 import { rutaFotoValida } from "../utils/seguridad";
 import { validarArchivoFoto } from "../utils/validar";
+import { ErrorParaMostrar } from "../utils/errores";
 
 // SEGURIDAD: antes de subir, revisa tipo, extensión, peso (5 MB)
 // y que el archivo sea una imagen de verdad. (El depósito de
 // Supabase también rechaza lo que no sea JPG/PNG/WEBP de 5 MB o menos.)
 async function revisarFoto(archivo) {
   const problema = validarArchivoFoto(archivo);
-  if (problema) throw new Error(problema);
-  if (!(await esImagenReal(archivo))) throw new Error("La foto no es una imagen JPG, PNG o WEBP de verdad.");
+  if (problema) throw new ErrorParaMostrar(problema);
+  if (!(await esImagenReal(archivo))) throw new ErrorParaMostrar("La foto no es una imagen JPG, PNG o WEBP de verdad.");
 }
 
 const deposito = () => supabase.storage.from(DEPOSITO_FOTOS);

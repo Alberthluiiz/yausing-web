@@ -7,7 +7,13 @@
 // (npm run dev), nunca en la web publicada.
 // =========================================================
 
+// Error con un mensaje ya escrito para Mary (ej: "La foto pesa más de 5 MB.").
+// mensajeDeError lo muestra tal cual.
+export class ErrorParaMostrar extends Error {}
+
 export function mensajeDeError(error, mensajePorDefecto = "Algo salió mal. Inténtalo otra vez en un momento.") {
+  if (error instanceof ErrorParaMostrar) return error.message;
+
   // Solo en tu PC (modo desarrollo) mostramos el detalle en la consola
   if (import.meta.env.DEV) console.error("[detalle del error]", error);
 

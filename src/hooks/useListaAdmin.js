@@ -89,5 +89,8 @@ export function useListaAdmin(tabla) {
     [filas, tabla, cargar],
   );
 
-  return { filas, cargando, aviso, setAviso, cargar, guardar, borrar, cambiarPublicado, mover };
+  // Siempre la misma función (así el aviso verde se cierra a los 4 s justos)
+  const cerrarAviso = useCallback(() => setAviso(null), []);
+
+  return { filas, cargando, aviso, setAviso, cerrarAviso, cargar, guardar, borrar, cambiarPublicado, mover };
 }

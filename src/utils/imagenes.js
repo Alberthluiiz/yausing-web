@@ -8,6 +8,7 @@
 // =========================================================
 
 import { ANCHO_MAXIMO_FOTO, MAXIMO_PIXELES_FOTO } from "./constantes";
+import { ErrorParaMostrar } from "./errores";
 
 // SEGURIDAD: ¿el archivo es de verdad una foto JPG, PNG o WEBP?
 // Mira los primeros bytes (la "firma" del archivo), no el nombre:
@@ -26,7 +27,7 @@ export async function prepararFoto(archivo, anchoMaximo = ANCHO_MAXIMO_FOTO, cal
   const imagen = await createImageBitmap(archivo);
   if (imagen.width * imagen.height > MAXIMO_PIXELES_FOTO) {
     imagen.close();
-    throw new Error("La foto es demasiado grande (en píxeles). Usa una foto normal del celular.");
+    throw new ErrorParaMostrar("La foto es demasiado grande (en píxeles). Usa una foto normal del celular.");
   }
   const escala = Math.min(1, anchoMaximo / imagen.width);
   const ancho = Math.round(imagen.width * escala);
