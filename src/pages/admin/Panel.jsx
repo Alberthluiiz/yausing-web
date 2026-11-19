@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { productos, ofertas, galeria, categorias } from "../../supabase/consultas";
+import { productosMasPedidos } from "../../supabase/pedidos";
+import { descargarCopia } from "../../supabase/copia";
 import { mensajeDeError } from "../../utils/errores";
 
 const TARJETAS = [
@@ -18,6 +20,8 @@ export default function Panel() {
   useTituloPagina("Panel");
   const [totales, setTotales] = useState(null);
   const [error, setError] = useState("");
+  const [masPedidos, setMasPedidos] = useState(null);
+  const [copia, setCopia] = useState(""); // "", "haciendo", "lista"
 
   useEffect(() => {
     Promise.all([productos.listar(), ofertas.listar(), galeria.listar(), categorias.listar()])
@@ -31,7 +35,21 @@ export default function Panel() {
         }),
       )
       .catch((e) => setError(mensajeDeError(e)));
+    productosMasPedidos(30)
+      .then(setMasPedidos)
+      .catch(() => setMasPedidos([]));
   }, []);
+
+  async function hacerCopia() {
+    setCopia("haciendo");
+    try {
+      await descargarCopia();
+      setCopia("lista");
+    } catch (e) {
+      setError(mensajeDeError(e));
+      setCopia("");
+    }
+  }
 
   return (
     <>
@@ -55,6 +73,45 @@ export default function Panel() {
           Tienes {totales.escondidos} producto(s) escondido(s): no se ven en la web.
         </div>
       )}
+
+      <div className="admin-caja mb-4">
+        <h2 className="h5 mb-1">Lo más pedido</h2>
+        <p className="text-secondary small mb-3">Veces que tocaron "Pedir por WhatsApp" en los últimos 30 días.</p>
+        {masPedidos === null ? (
+          <p className="text-secondary mb-0">Cargando…</p>
+        ) : masPedidos.length === 0 ? (
+          <p className="text-secondary mb-0">
+            Todavía no hay pedidos contados. Aparecerán aquí cuando los clientes pidan.
+          </p>
+        ) : (
+          <ol className="mas-pedidos">
+            {masPedidos.map((item) => (
+              <li key={item.producto_id}>
+                <span>{item.nombre}</span>
+                <strong>{item.pedidos}</strong>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
+
+      <div className="admin-caja mb-4">
+        <h2 className="h5 mb-1">Copia de seguridad</h2>
+        <p className="text-secondary small mb-3">
+          Descarga un archivo con todos los productos, ofertas y datos de la tienda. Guárdalo una vez al mes en tu
+          computadora o en Google Drive.
+        </p>
+        <button
+          type="button"
+          className="btn btn-outline-dark rounded-pill"
+          onClick={hacerCopia}
+          disabled={copia === "haciendo"}
+        >
+          <i className="bi bi-download me-1" />
+          {copia === "haciendo" ? "Preparando…" : "Descargar copia"}
+        </button>
+        {copia === "lista" && <span className="text-success small ms-2">¡Listo! Revisa tus descargas.</span>}
+      </div>
 
       <div className="admin-caja">
         <h2 className="h5 mb-3">¿Qué quieres hacer?</h2>

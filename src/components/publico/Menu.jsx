@@ -4,7 +4,7 @@
 // - Se achica al bajar y marca la sección en la que estás
 // =========================================================
 import { useEffect, useState } from "react";
-import logo from "../../assets/img/yausig-logo.svg";
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el original .svg está en diseno/)
 import { ALTURA_MENU_ACHICADO } from "../../utils/constantes";
 import { usePedido } from "../../store/pedidoStore";
 

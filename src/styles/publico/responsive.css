@@ -25,6 +25,26 @@
 }
 
 @media (max-width: 575.98px) {
+  /* El mismo espacio a los lados en todas las secciones */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  /* Categorías en una sola fila que se desliza con el dedo */
+  .filtros {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    margin: 0 -16px 28px;
+    padding: 2px 16px 6px;
+    scrollbar-width: none;
+  }
+  .filtros::-webkit-scrollbar {
+    display: none;
+  }
+  .filtro {
+    flex-shrink: 0;
+  }
   .nosotros-marco {
     padding: 36px;
   }

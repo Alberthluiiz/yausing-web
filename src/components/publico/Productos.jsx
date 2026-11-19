@@ -16,7 +16,10 @@ import { paraBuscar } from "../../utils/formato";
 import { enlaceWhatsapp, mensajePedidoProducto } from "../../utils/whatsapp";
 
 const TODOS = "todos";
-const POR_PAGINA = 12; // cuántos productos se ven al inicio y en cada "Ver más"
+// Cuántos productos se ven al inicio y en cada "Ver más"
+// (en el celular 8, para que la página no sea tan larga ni pesada)
+const ES_CELULAR = window.matchMedia?.("(max-width: 575.98px)").matches;
+const POR_PAGINA = ES_CELULAR ? 8 : 12;
 
 export default function Productos({ tienda, productos, categorias }) {
   const [filtro, setFiltro] = useState(TODOS);

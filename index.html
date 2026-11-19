@@ -17,8 +17,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Yausig Churikuna" />
     <meta property="og:locale" content="es_EC" />
-    <meta property="og:title" content="Yausig Churikuna · Ropa indígena en Quito" />
-    <meta property="og:description" content="Blusas bordadas, ponchos, fajas, collares y más. C.C. Ipiales del Sur, Local 67. Pide por WhatsApp." />
+    <meta
+      property="og:title"
+      content="Yausig Churikuna · Ropa indígena en Quito"
+    />
+    <meta
+      property="og:description"
+      content="Blusas bordadas, ponchos, fajas, collares y más. C.C. Ipiales del Sur, Local 67. Pide por WhatsApp."
+    />
     <meta property="og:image" content="/vista-previa.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -26,6 +32,37 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- VELOCIDAD: abre la conexión con Supabase mientras carga la página
+         (si cambias de proyecto Supabase, cambia también esta dirección) -->
+    <link
+      rel="preconnect"
+      href="https://tqoszpranaegbojcsxsk.supabase.co"
+      crossorigin
+    />
+    <!-- GOOGLE: datos del negocio local (nombre, dirección, teléfono).
+         Ayuda a que la tienda aparezca mejor en Google y Google Maps.
+         Si cambian la dirección o el WhatsApp, cámbialos también aquí. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ClothingStore",
+        "name": "Yausig Churikuna",
+        "description": "Ropa indígena en Quito: blusas bordadas, sacos, ponchos, fajas y collares para toda la familia.",
+        "image": "/vista-previa.jpg",
+        "logo": "/favicon.svg",
+        "telephone": "+593961380728",
+        "priceRange": "$",
+        "currenciesAccepted": "USD",
+        "paymentAccepted": "Efectivo, transferencia",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Centro Comercial Ipiales del Sur, Local 67",
+          "addressLocality": "Quito",
+          "addressRegion": "Pichincha",
+          "addressCountry": "EC"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- Aquí React dibuja toda la web -->

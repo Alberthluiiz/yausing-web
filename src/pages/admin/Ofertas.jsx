@@ -1,20 +1,25 @@
 // =========================================================
 // Ofertas.jsx (panel) · Combos y precios especiales del mes
 // =========================================================
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import Aviso from "../../components/admin/Aviso";
+import BotonesFormulario from "../../components/admin/BotonesFormulario";
+import Buscador from "../../components/admin/Buscador";
 import Campo from "../../components/admin/Campo";
 import CampoFoto from "../../components/admin/CampoFoto";
+import Confirmar from "../../components/admin/Confirmar";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useConfirmar } from "../../hooks/useConfirmar";
+import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
+import { useNuevoDesdeEnlace } from "../../hooks/useNuevoDesdeEnlace";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { ofertas as tablaOfertas } from "../../supabase/consultas";
 import { COLORES_OFERTA } from "../../utils/constantes";
-import { porcentajeDescuento, precioTexto } from "../../utils/formato";
+import { coincide, porcentajeDescuento, precioTexto } from "../../utils/formato";
 import { diaEnTexto, hoyEnTexto, ofertaVigente } from "../../utils/fechas";
 import { validarOferta } from "../../utils/validar";
 
@@ -38,31 +43,25 @@ function detalleOferta(oferta) {
   return `${precio} · Hasta el ${diaEnTexto(oferta.termina_el)}`;
 }
 
-function Formulario({ inicial, alGuardar, alCancelar }) {
-  const [datos, setDatos] = useState(inicial);
-  const [errores, setErrores] = useState({});
-  const [guardando, setGuardando] = useState(false);
-  const cambiar = (nombre, valor) => setDatos((anterior) => ({ ...anterior, [nombre]: valor }));
-  const descuento = porcentajeDescuento(datos.precio_antes, datos.precio_ahora);
+// Limpia los datos antes de guardar
+const preparar = (datos) => ({
+  ...datos,
+  nombre: datos.nombre.trim(),
+  descripcion: datos.descripcion?.trim() || null,
+  precio_antes: Number(datos.precio_antes),
+  precio_ahora: Number(datos.precio_ahora),
+  termina_el: datos.termina_el || null, // vacío = hasta fin de mes
+  orden: Number(datos.orden) || 0,
+});
 
-  async function enviar(evento) {
-    evento.preventDefault();
-    const encontrados = validarOferta(datos);
-    setErrores(encontrados);
-    if (Object.keys(encontrados).length) return;
-    setGuardando(true);
-    const listo = await alGuardar({
-      ...datos,
-      nombre: datos.nombre.trim(),
-      descripcion: datos.descripcion?.trim() || null,
-      precio_antes: Number(datos.precio_antes),
-      precio_ahora: Number(datos.precio_ahora),
-      termina_el: datos.termina_el || null, // vacío = hasta fin de mes
-      orden: Number(datos.orden) || 0,
-    });
-    setGuardando(false);
-    if (listo) alCancelar();
-  }
+function Formulario({ inicial, alGuardar, alCancelar }) {
+  const { datos, errores, guardando, cambiar, enviar } = useFormulario(inicial, {
+    validar: validarOferta,
+    preparar,
+    alGuardar,
+    alTerminar: alCancelar,
+  });
+  const descuento = porcentajeDescuento(datos.precio_antes, datos.precio_ahora);
 
   return (
     <form onSubmit={enviar} noValidate>
@@ -99,14 +98,7 @@ function Formulario({ inicial, alGuardar, alCancelar }) {
         opciones={COLORES_OFERTA.map((c) => ({ valor: c, texto: c[0].toUpperCase() + c.slice(1) }))}
       />
       <Interruptor etiqueta="Mostrar en la web" nombre="publicado" valor={datos.publicado} alCambiar={cambiar} />
-      <div className="d-flex gap-2 justify-content-end">
-        <button type="button" className="btn btn-light rounded-pill px-4" onClick={alCancelar}>
-          Cancelar
-        </button>
-        <button type="submit" className="btn btn-rojo rounded-pill px-4" disabled={guardando}>
-          {guardando ? "Guardando..." : "Guardar"}
-        </button>
-      </div>
+      <BotonesFormulario guardando={guardando} alCancelar={alCancelar} />
     </form>
   );
 }
@@ -115,14 +107,19 @@ export default function Ofertas() {
   useTituloPagina("Ofertas");
   const lista = useListaAdmin(tablaOfertas);
   const [editando, setEditando] = useState(null);
-  const [parametros, setParametros] = useSearchParams();
+  const [buscar, setBuscar] = useState("");
+  const { confirmar, ventana } = useConfirmar();
+  useNuevoDesdeEnlace(setEditando, VACIO); // ?nuevo=1 abre el formulario vacío
 
-  useEffect(() => {
-    if (parametros.get("nuevo")) {
-      setEditando(VACIO);
-      setParametros({}, { replace: true });
-    }
-  }, [parametros, setParametros]);
+  const visibles = lista.filas.filter((o) => coincide(o.nombre, buscar));
+
+  async function confirmarBorrar(oferta) {
+    const si = await confirmar({
+      titulo: `¿Borrar la oferta «${oferta.nombre}»?`,
+      texto: "No se puede deshacer. Si solo quieres que no se vea, tócale el ojo para esconderla.",
+    });
+    if (si) lista.borrar(oferta.id);
+  }
 
   return (
     <>
@@ -135,18 +132,19 @@ export default function Ofertas() {
           <i className="bi bi-plus-lg me-1" /> Nueva oferta
         </button>
       </div>
-      <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />
+      <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
       <div className="admin-caja">
+        <Buscador valor={buscar} alCambiar={setBuscar} texto="Buscar oferta por nombre..." />
         {lista.cargando ? (
           <Cargando />
-        ) : lista.filas.length === 0 ? (
-          <p className="text-secondary mb-0">No hay ofertas.</p>
+        ) : visibles.length === 0 ? (
+          <p className="text-secondary mb-0">{buscar.trim() ? `No hay ofertas que coincidan con «${buscar.trim()}».` : "No hay ofertas."}</p>
         ) : (
-          lista.filas.map((oferta, indice) => (
+          visibles.map((oferta, indice) => (
             <FilaAdmin
               indice={indice}
-              total={lista.filas.length}
-              alMover={lista.mover}
+              total={visibles.length}
+              alMover={buscar.trim() ? undefined : lista.mover /* al buscar no se ordena */}
               key={oferta.id}
               foto={oferta.foto_ruta}
               titulo={oferta.nombre}
@@ -154,7 +152,7 @@ export default function Ofertas() {
               publicado={oferta.publicado}
               alPublicar={() => lista.cambiarPublicado(oferta)}
               alEditar={() => setEditando({ ...oferta, descripcion: oferta.descripcion ?? "", termina_el: oferta.termina_el ?? "" })}
-              alBorrar={() => window.confirm(`¿Borrar la oferta "${oferta.nombre}"?`) && lista.borrar(oferta.id)}
+              alBorrar={() => confirmarBorrar(oferta)}
             />
           ))
         )}
@@ -162,11 +160,11 @@ export default function Ofertas() {
       {editando && (
         <Ventana titulo="Oferta" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={() => lista.setAviso(null)} />}
             <Formulario inicial={editando} alGuardar={(datos) => lista.guardar(datos, editando.id)} alCancelar={() => setEditando(null)} />
           </div>
         </Ventana>
       )}
+      <Confirmar {...ventana} />
     </>
   );
 }

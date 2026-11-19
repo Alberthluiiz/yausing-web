@@ -33,27 +33,31 @@ yausig-churikuna-react/
 ├── .env                  ← claves de Supabase (NO se sube a GitHub)
 ├── .env.example          ← modelo del .env (este sí se sube)
 ├── netlify.toml          ← cómo se publica + cabeceras de seguridad
+├── netlify/              ← código que corre en Netlify (no en el navegador)
+│   ├── edge-functions/   ← vista-previa.js (tarjetita al compartir) y sitemap.js (lista para Google)
+│   └── functions/        ← mantener-activo.mjs: evita que Supabase se pause
 ├── index.html            ← título y descripción para Google
 ├── public/               ← favicon y robots.txt (se copian tal cual)
 ├── supabase/sql/         ← el SQL de las tablas y reglas (para leer, ya está aplicado)
 ├── docs/                 ← auditoría de seguridad y respuestas de WhatsApp
+├── diseno/               ← archivos originales de diseño (no se usan en la web)
 └── src/
     ├── main.jsx          ← arranque: carga estilos y la App
     ├── App.jsx           ← une la sesión con las rutas
-    ├── assets/img/       ← logos SVG
+    ├── assets/img/       ← logos e ícono que usa la web
     ├── components/
     │   ├── comunes/      ← piezas que usan las dos partes (Foto, Precio, Ventana...)
     │   ├── publico/      ← cada sección de la web (Menu, Portada, Productos, Ofertas...)
-    │   └── admin/        ← piezas del panel (Campo, CampoFoto, FilaAdmin, LayoutAdmin...)
+    │   └── admin/        ← piezas del panel (Campo, CampoFoto, FilaAdmin, BotonesFormulario, LayoutAdmin...)
     ├── context/          ← datos compartidos: sesión (SesionContext) y tienda (TiendaContext)
-    ├── hooks/            ← funciones reutilizables (useSesion, useAparecer, useLimiteIntentos...)
+    ├── hooks/            ← funciones reutilizables (useSesion, useListaAdmin, useFormulario, useLimiteIntentos...)
     ├── pages/
     │   ├── publico/      ← Inicio (la tienda) y NoEncontrada (404)
-    │   └── admin/        ← Login, Panel, Productos, Ofertas, Galeria, Categorias, Fotos, Tienda
+    │   └── admin/        ← Login, Panel, Productos, Ofertas, Galeria, Categorias, Fotos, Tienda, Seguridad
     ├── routes/           ← AppRouter (todas las direcciones) y RutaProtegida (puerta del panel)
     ├── store/            ← pedidoStore: la bolsita "Mi pedido"
     ├── styles/           ← CSS: variables, base, publico/*.css, admin/admin.css
-    ├── supabase/         ← conexión (cliente.js), consultas, fotos y login (auth.js)
+    ├── supabase/         ← TODO lo que habla con Supabase: conexión (cliente.js), consultas, fotos, login y código del celular (auth.js)
     └── utils/            ← whatsapp.js (TEXTOS de los mensajes), validar, seguridad, formato...
 ```
 
@@ -94,5 +98,42 @@ Cliente toca "Pedir" → src/utils/whatsapp.js arma el mensaje → se abre Whats
   Usa las mismas variables del paso 3. Netlify la encuentra solo.
 - Para probarla después de publicar: pega el enlace en
   https://developers.facebook.com/tools/debug/ (WhatsApp usa lo mismo).
+
+### Que Supabase no se pause (¡importante!)
+
+En el plan gratis, Supabase **pausa la base de datos** si pasan unos 7 días
+con poca actividad. Cuando está pausada, la web no muestra productos y el panel no entra.
+
+- `netlify/functions/mantener-activo.mjs` corre sola **una vez al día** en Netlify
+  y hace una consulta pequeñita para que Supabase vea actividad. Netlify la encuentra sola.
+- Para ver si corrió: Netlify → *Logs → Functions → mantener-activo*.
+- Si aun así se pausa: Supabase → tu proyecto → botón **Restore project**
+  (tarda unos minutos y no se pierde nada).
+
+### Velocidad
+
+- El panel (`/admin`) y sus estilos se descargan solo al entrar al panel.
+- React y Supabase van en archivos aparte (`vite.config.js`): el navegador
+  los guarda y no los vuelve a bajar cuando cambias tu código.
+- Las fotos se suben ya achicadas y en WEBP (`src/utils/imagenes.js`).
+- **Miniaturas:** cada foto tiene una copia chica de 600 px en `miniaturas/` (tarjetas y galería).
+  Se crea sola al subir. Para fotos antiguas: panel → *Fotos* → **Crear miniaturas que faltan**.
+- **Datos guardados:** la web guarda en el navegador los datos de la última visita
+  (`src/context/TiendaContext.jsx`) y aparece al instante; luego se actualiza sola.
+- El logo del menú y del pie es `yausig-logo.webp` (13 KB). El `.svg` queda como original.
+
+### Google
+
+- `/sitemap.xml` se arma solo con todos los productos publicados (`netlify/edge-functions/sitemap.js`).
+- `public/robots.txt` le dice a Google dónde está. **Si cambias de dominio, cambia la dirección ahí.**
+- En `index.html` están los datos del negocio (nombre, dirección, teléfono) para Google.
+- Recomendado: crear el perfil gratis en **Google Business Profile** (Google Maps) con el horario y fotos.
+
+### Panel: lo más pedido y copia de seguridad
+
+- Cada vez que tocan "Pedir por WhatsApp" se suma 1 a ese producto (sin datos de la persona).
+  El inicio del panel muestra los 10 más pedidos de los últimos 30 días.
+  SQL: `supabase/sql/08-contador-de-pedidos.sql`.
+- Botón **Descargar copia** en el inicio del panel: baja un `.json` con todo. Hazlo una vez al mes.
 
 La auditoría de seguridad está en [`docs/SEGURIDAD.md`](docs/SEGURIDAD.md).

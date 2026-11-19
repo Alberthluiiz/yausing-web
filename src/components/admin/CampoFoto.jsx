@@ -22,7 +22,7 @@ export default function CampoFoto({ ruta, nombreBase, alCambiar, etiqueta = "Fot
     try {
       alCambiar(await subirFoto(archivo, nombreBase));
     } catch (e) {
-      setError(e.message?.startsWith("Solo") || e.message?.startsWith("La foto") ? e.message : mensajeDeError(e));
+      setError(mensajeDeError(e)); // "Solo JPG...", "La foto pesa..." se muestran tal cual (ErrorParaMostrar)
     } finally {
       setSubiendo(false);
     }

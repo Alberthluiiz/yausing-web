@@ -74,7 +74,7 @@ export default function Ofertas({ tienda, ofertas }) {
               <Aparecer className="col" key={oferta.id}>
                 <article className="oferta" style={{ "--color-oferta": `var(--${color})` }}>
                   <div className="oferta-cabeza">
-                    <Foto ruta={oferta.foto_ruta} alt={oferta.nombre} className="oferta-foto" />
+                    <Foto ruta={oferta.foto_ruta} alt={oferta.nombre} className="oferta-foto" miniatura />
                     {descuento > 0 && <span className="oferta-descuento">-{descuento}%</span>}
                   </div>
                   <h3>{oferta.nombre}</h3>

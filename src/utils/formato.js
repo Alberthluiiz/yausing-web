@@ -32,6 +32,11 @@ export function paraBuscar(texto) {
     .trim();
 }
 
+// ¿El texto contiene lo buscado? (sin tildes ni mayúsculas; si no se buscó nada, sí)
+export function coincide(texto, busqueda) {
+  return paraBuscar(texto).includes(paraBuscar(busqueda));
+}
+
 export function aSlug(texto) {
   return String(texto ?? "")
     .normalize("NFD")

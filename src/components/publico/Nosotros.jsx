@@ -16,7 +16,7 @@ export default function Nosotros() {
         <div className="row align-items-center g-4 g-lg-5">
           <Aparecer className="col-lg-5">
             <div className="nosotros-marco">
-              <img src={logoVertical} alt="Logo de Yausig Churikuna" />
+              <img src={logoVertical} alt="Logo de Yausig Churikuna" loading="lazy" decoding="async" width="424" height="610" />
             </div>
           </Aparecer>
           <Aparecer className="col-lg-7">

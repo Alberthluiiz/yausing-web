@@ -1,3 +1,6 @@
 # Los buscadores pueden ver la tienda, pero no el panel de administración
 User-agent: *
 Disallow: /admin
+
+# Lista de páginas para Google (si cambias de dominio, cambia esta dirección)
+Sitemap: https://yausig-churikuna.netlify.app/sitemap.xml

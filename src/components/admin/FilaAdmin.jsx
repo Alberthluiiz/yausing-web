@@ -61,7 +61,7 @@ export default function FilaAdmin({
           </button>
         </div>
       )}
-      {foto !== undefined && <Foto ruta={foto} alt="" className="miniatura" />}
+      {foto !== undefined && <Foto ruta={foto} alt="" className="miniatura" miniatura />}
       <div className="datos">
         <strong>{titulo}</strong>
         <small>

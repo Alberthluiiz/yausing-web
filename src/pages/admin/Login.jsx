@@ -3,23 +3,32 @@
 //
 // SEGURIDAD:
 // - Chequeo 2: la contraseña la revisa Supabase (guardada con hash)
-// - Chequeo 3: después de 5 errores, espera 5 minutos
+// - Chequeo 3: después de 5 errores, espera 5 minutos (ayuda en el
+//   navegador; el límite real lo pone Supabase Auth por IP). Si
+//   Mary activó la verificación en dos pasos (panel → Seguridad),
+//   además pide el código de 6 números del celular.
 // - Chequeo 11: el mensaje de error no da pistas (no dice si el
 //   correo existe o no)
 // =========================================================
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/yausig-logo.svg";
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el original .svg está en diseno/)
+import "../../styles/admin/admin.css"; // estilos del panel (solo se descargan aquí)
 import { useSesion } from "../../hooks/useSesion";
 import { useLimiteIntentos } from "../../hooks/useLimiteIntentos";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
-import { iniciarSesion, esAdministrador, cerrarSesion } from "../../supabase/auth";
+import { iniciarSesion, esAdministrador, cerrarSesion, faltaCodigo, verificarCodigo } from "../../supabase/auth";
 import { mensajeDeError } from "../../utils/errores";
 import { correoValido } from "../../utils/validar";
 
+// Solo se vuelve a una página del panel (nunca a otra web)
+function destinoSeguro(ruta) {
+  return typeof ruta === "string" && ruta.startsWith("/admin") ? ruta : "/admin";
+}
+
 export default function Login() {
   useTituloPagina("Entrar al panel");
-  const { usuario, esAdmin, cargando } = useSesion();
+  const { usuario, esAdmin, pideCodigo, cargando } = useSesion();
   const navegar = useNavigate();
   const ubicacion = useLocation();
   const limite = useLimiteIntentos();
@@ -27,11 +36,45 @@ export default function Login() {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [verContrasena, setVerContrasena] = useState(false);
+  const [codigo, setCodigo] = useState("");
+  const [pasoCodigo, setPasoCodigo] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
 
   // Si ya está conectada como admin, pasa directo al panel
   if (!cargando && usuario && esAdmin) return <Navigate to="/admin" replace />;
+
+  // Entró con la contraseña pero falta el código (también si recargó la página)
+  const mostrarCodigo = pasoCodigo || (!cargando && pideCodigo);
+
+  async function revisarCodigo(evento) {
+    evento.preventDefault();
+    if (limite.bloqueado || enviando) return;
+    if (!/^\d{6}$/.test(codigo)) {
+      setError("Escribe los 6 números que muestra tu celular.");
+      return;
+    }
+    setEnviando(true);
+    setError("");
+    try {
+      await verificarCodigo(codigo);
+      limite.reiniciar();
+      navegar(destinoSeguro(ubicacion.state?.desde), { replace: true });
+    } catch (e) {
+      limite.registrarFallo();
+      setError(mensajeDeError(e, "El código no es correcto. Prueba con el número nuevo."));
+    } finally {
+      setCodigo("");
+      setEnviando(false);
+    }
+  }
+
+  async function cancelarCodigo() {
+    await cerrarSesion();
+    setPasoCodigo(false);
+    setCodigo("");
+    setError("");
+  }
 
   async function entrar(evento) {
     evento.preventDefault();
@@ -52,8 +95,13 @@ export default function Login() {
         await cerrarSesion();
         throw new Error("Invalid login credentials");
       }
+      // ¿Tiene activado el código del celular? Entonces falta el paso 2
+      if (await faltaCodigo()) {
+        setPasoCodigo(true);
+        return;
+      }
       limite.reiniciar();
-      navegar(ubicacion.state?.desde ?? "/admin", { replace: true });
+      navegar(destinoSeguro(ubicacion.state?.desde), { replace: true });
     } catch (e) {
       limite.registrarFallo();
       setError(mensajeDeError(e, "No se pudo entrar. Inténtalo otra vez."));
@@ -66,6 +114,57 @@ export default function Login() {
   const minutos = Math.floor(limite.segundosRestantes / 60);
   const segundos = String(limite.segundosRestantes % 60).padStart(2, "0");
 
+  const avisos = (
+    <>
+      {error && !limite.bloqueado && <div className="alert alert-danger py-2 small">{error}</div>}
+      {limite.bloqueado && (
+        <div className="alert alert-warning py-2 small">
+          Demasiados intentos. Espera {minutos}:{segundos} para volver a probar.
+        </div>
+      )}
+    </>
+  );
+
+  // Paso 2: código de 6 números del celular
+  if (mostrarCodigo) {
+    return (
+      <div className="login">
+        <form className="login-caja" onSubmit={revisarCodigo} noValidate>
+          <img src={logo} alt="Yausig Churikuna" />
+          <h1 className="h4 text-center titulo mb-1">Código de seguridad</h1>
+          <p className="text-center text-secondary small mb-4">
+            Abre la app de códigos en tu celular y escribe los 6 números de Yausig.
+          </p>
+          {avisos}
+          <div className="mb-4">
+            <label htmlFor="codigo" className="form-label fw-semibold">
+              Código
+            </label>
+            <input
+              id="codigo"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              pattern="[0-9]{6}"
+              maxLength={6}
+              className="form-control form-control-lg text-center"
+              value={codigo}
+              onChange={(e) => setCodigo(e.target.value.replace(/\D/g, ""))}
+              autoFocus
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-rojo btn-lg rounded-pill w-100" disabled={enviando || limite.bloqueado}>
+            {enviando ? <span className="spinner-border spinner-border-sm" aria-hidden="true" /> : "Entrar"}
+          </button>
+          <button type="button" className="btn btn-link d-block mx-auto small mt-3 text-secondary" onClick={cancelarCodigo}>
+            ← Usar otra cuenta
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="login">
       <form className="login-caja" onSubmit={entrar} noValidate>
@@ -73,12 +172,7 @@ export default function Login() {
         <h1 className="h4 text-center titulo mb-1">Panel de la tienda</h1>
         <p className="text-center text-secondary small mb-4">Solo para administradores</p>
 
-        {error && !limite.bloqueado && <div className="alert alert-danger py-2 small">{error}</div>}
-        {limite.bloqueado && (
-          <div className="alert alert-warning py-2 small">
-            Demasiados intentos. Espera {minutos}:{segundos} para volver a probar.
-          </div>
-        )}
+        {avisos}
 
         <div className="mb-3">
           <label htmlFor="correo" className="form-label fw-semibold">

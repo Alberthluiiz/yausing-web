@@ -19,5 +19,5 @@
 @import "./publico/ventana.css"; /* Detalle de producto, visor y "Mi pedido" */
 @import "./publico/responsive.css"; /* Ajustes para celular (siempre al final) */
 
-/* Panel de administración */
-@import "./admin/admin.css";
+/* El panel de administración tiene su propio archivo (admin/admin.css):
+   se descarga solo al entrar a /admin, así la tienda carga más rápido. */

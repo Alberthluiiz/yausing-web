@@ -3,7 +3,8 @@
 // (arriba en el celular) y la página elegida a la derecha.
 // =========================================================
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/yausig-logo.svg";
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el original .svg está en diseno/)
+import "../../styles/admin/admin.css"; // estilos del panel (solo se descargan aquí)
 import { cerrarSesion } from "../../supabase/auth";
 import { useSesion } from "../../hooks/useSesion";
 
@@ -16,6 +17,7 @@ const OPCIONES = [
   { a: "/admin/categorias", icono: "bi-tags", texto: "Categorías" },
   { a: "/admin/fotos", icono: "bi-cloud-arrow-up", texto: "Fotos" },
   { a: "/admin/tienda", icono: "bi-shop", texto: "Datos de la tienda" },
+  { a: "/admin/seguridad", icono: "bi-shield-lock", texto: "Seguridad" },
 ];
 
 export default function LayoutAdmin() {
