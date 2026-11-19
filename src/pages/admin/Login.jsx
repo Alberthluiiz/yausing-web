@@ -12,7 +12,7 @@
 // =========================================================
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el .svg queda como original)
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el original .svg está en diseno/)
 import "../../styles/admin/admin.css"; // estilos del panel (solo se descargan aquí)
 import { useSesion } from "../../hooks/useSesion";
 import { useLimiteIntentos } from "../../hooks/useLimiteIntentos";

@@ -1,6 +1,6 @@
 // Pie.jsx · Pie de página
 import Franja from "../comunes/Franja";
-import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el .svg queda como original)
+import logo from "../../assets/img/yausig-logo.webp"; // versión liviana del logo (el original .svg está en diseno/)
 
 export default function Pie({ tienda }) {
   return (
