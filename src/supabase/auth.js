@@ -21,6 +21,19 @@ export async function cerrarSesion() {
   await supabase.auth.signOut();
 }
 
+// La sesión guardada al abrir la web (o null si no hay)
+export async function leerSesion() {
+  const { data } = await supabase.auth.getSession();
+  return data.session;
+}
+
+// Avisa cada vez que inicia o cierra sesión (o confirma el código).
+// Devuelve una función para dejar de escuchar.
+export function escucharCambiosDeSesion(alCambiar) {
+  const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => alCambiar(sesion));
+  return () => data.subscription.unsubscribe();
+}
+
 // ¿El usuario conectado está en la tabla "administradores"?
 // (La tabla solo deja ver la fila propia, ver RLS.)
 export async function esAdministrador(usuarioId) {

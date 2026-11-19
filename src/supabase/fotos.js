@@ -33,7 +33,7 @@ export function urlFoto(ruta) {
 }
 
 // Ruta de la miniatura de una foto: productos/saco.webp → miniaturas/saco.webp
-export function rutaMiniatura(ruta) {
+function rutaMiniatura(ruta) {
   if (!rutaFotoValida(ruta)) return "";
   const nombre = ruta.split("/").pop().replace(/\.[a-z0-9]+$/, ".webp");
   return `${CARPETA_MINIATURAS}/${nombre}`;

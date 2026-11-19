@@ -7,8 +7,8 @@
 
 import { supabase } from "./cliente";
 
-// Copia solo los campos permitidos
-function soloCampos(datos, campos) {
+// Copia solo los campos permitidos (también lo usa consultas.js para la tienda)
+export function soloCampos(datos, campos) {
   return Object.fromEntries(campos.filter((c) => c in datos).map((c) => [c, datos[c]]));
 }
 

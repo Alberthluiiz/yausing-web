@@ -6,7 +6,7 @@
 // =========================================================
 
 import { supabase } from "./cliente";
-import { crearTabla } from "./tablas";
+import { crearTabla, soloCampos } from "./tablas";
 
 // Campos que el panel puede cambiar en cada tabla
 export const productos = crearTabla("productos", [
@@ -38,8 +38,7 @@ export const tienda = {
     return data;
   },
   async editar(datos) {
-    const limpio = Object.fromEntries(CAMPOS_TIENDA.filter((c) => c in datos).map((c) => [c, datos[c]]));
-    const { data, error } = await supabase.from("tienda").update(limpio).eq("id", 1).select().single();
+    const { data, error } = await supabase.from("tienda").update(soloCampos(datos, CAMPOS_TIENDA)).eq("id", 1).select().single();
     if (error) throw error;
     return data;
   },

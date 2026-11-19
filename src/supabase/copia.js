@@ -8,26 +8,16 @@
 // Guárdalo en tu PC o en Google Drive una vez al mes.
 // =========================================================
 
-import { tienda, categorias, productos, ofertas, galeria } from "./consultas";
+import { cargarTodo } from "./consultas";
 import { listarFotos } from "./fotos";
 
 export async function descargarCopia() {
-  const [datosTienda, listaCategorias, listaProductos, listaOfertas, listaGaleria, listaFotos] = await Promise.all([
-    tienda.leer(),
-    categorias.listar(),
-    productos.listar(),
-    ofertas.listar(),
-    galeria.listar(),
-    listarFotos(),
-  ]);
+  // Desde el panel, cargarTodo() trae también lo escondido (reglas RLS del admin)
+  const [datos, listaFotos] = await Promise.all([cargarTodo(), listarFotos()]);
 
   const copia = {
     hecha_el: new Date().toISOString(),
-    tienda: datosTienda,
-    categorias: listaCategorias,
-    productos: listaProductos,
-    ofertas: listaOfertas,
-    galeria: listaGaleria,
+    ...datos, // tienda, categorias, productos, ofertas, galeria
     fotos: listaFotos.map((foto) => foto.ruta),
   };
 
@@ -40,5 +30,5 @@ export async function descargarCopia() {
   enlace.click();
   enlace.remove();
   setTimeout(() => URL.revokeObjectURL(enlace.href), 1000);
-  return listaProductos.length;
+  return datos.productos.length;
 }

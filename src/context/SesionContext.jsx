@@ -7,8 +7,7 @@
 // =========================================================
 
 import { createContext, useEffect, useState } from "react";
-import { supabase } from "../supabase/cliente";
-import { esAdministrador, faltaCodigo } from "../supabase/auth";
+import { esAdministrador, escucharCambiosDeSesion, faltaCodigo, leerSesion } from "../supabase/auth";
 
 export const SesionContext = createContext(null);
 
@@ -36,17 +35,17 @@ export function SesionProvider({ children }) {
     }
 
     // 1. Al abrir la web
-    supabase.auth.getSession().then(({ data }) => revisar(data.session));
+    leerSesion().then(revisar);
 
     // 2. Cada vez que inicia o cierra sesión.
     //    (setTimeout evita llamar a Supabase dentro del aviso, como pide su guía)
-    const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => {
+    const dejarDeEscuchar = escucharCambiosDeSesion((sesion) => {
       setTimeout(() => revisar(sesion), 0);
     });
 
     return () => {
       activo = false;
-      data.subscription.unsubscribe();
+      dejarDeEscuchar();
     };
   }, []);
 
