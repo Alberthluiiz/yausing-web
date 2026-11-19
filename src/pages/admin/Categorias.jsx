@@ -5,15 +5,19 @@
 import { useState } from "react";
 import Aviso from "../../components/admin/Aviso";
 import BotonesFormulario from "../../components/admin/BotonesFormulario";
+import Buscador from "../../components/admin/Buscador";
 import Campo from "../../components/admin/Campo";
+import Confirmar from "../../components/admin/Confirmar";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useConfirmar } from "../../hooks/useConfirmar";
 import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { categorias as tablaCategorias } from "../../supabase/consultas";
+import { coincide } from "../../utils/formato";
 import { validarCategoria } from "../../utils/validar";
 
 const VACIO = { nombre: "", orden: 0, activa: true };
@@ -43,6 +47,18 @@ export default function Categorias() {
   useTituloPagina("Categorías");
   const lista = useListaAdmin(tablaCategorias);
   const [editando, setEditando] = useState(null);
+  const [buscar, setBuscar] = useState("");
+  const { confirmar, ventana } = useConfirmar();
+
+  const visibles = lista.filas.filter((c) => coincide(c.nombre, buscar));
+
+  async function confirmarBorrar(categoria) {
+    const si = await confirmar({
+      titulo: `¿Borrar la categoría «${categoria.nombre}»?`,
+      texto: "Sus productos no se borran: quedarán como «Sin categoría».",
+    });
+    if (si) lista.borrar(categoria.id);
+  }
 
   return (
     <>
@@ -57,23 +73,24 @@ export default function Categorias() {
       </div>
       <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
       <div className="admin-caja">
+        <Buscador valor={buscar} alCambiar={setBuscar} texto="Buscar categoría..." />
         {lista.cargando ? (
           <Cargando />
+        ) : visibles.length === 0 ? (
+          <p className="text-secondary mb-0">{buscar.trim() ? `No hay categorías que coincidan con «${buscar.trim()}».` : "No hay categorías."}</p>
         ) : (
-          lista.filas.map((categoria, indice) => (
+          visibles.map((categoria, indice) => (
             <FilaAdmin
               indice={indice}
-              total={lista.filas.length}
-              alMover={lista.mover}
+              total={visibles.length}
+              alMover={buscar.trim() ? undefined : lista.mover /* al buscar no se ordena */}
               key={categoria.id}
               titulo={categoria.nombre}
               detalle="Botón para filtrar productos"
               publicado={categoria.activa}
               alPublicar={() => lista.guardar({ activa: !categoria.activa }, categoria.id)}
               alEditar={() => setEditando(categoria)}
-              alBorrar={() =>
-                window.confirm(`¿Borrar "${categoria.nombre}"? Sus productos quedarán sin categoría.`) && lista.borrar(categoria.id)
-              }
+              alBorrar={() => confirmarBorrar(categoria)}
             />
           ))
         )}
@@ -81,11 +98,11 @@ export default function Categorias() {
       {editando && (
         <Ventana titulo="Categoría" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario inicial={editando} alGuardar={(datos) => lista.guardar(datos, editando.id)} alCancelar={() => setEditando(null)} />
           </div>
         </Ventana>
       )}
+      <Confirmar {...ventana} />
     </>
   );
 }

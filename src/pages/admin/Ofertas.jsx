@@ -4,19 +4,22 @@
 import { useState } from "react";
 import Aviso from "../../components/admin/Aviso";
 import BotonesFormulario from "../../components/admin/BotonesFormulario";
+import Buscador from "../../components/admin/Buscador";
 import Campo from "../../components/admin/Campo";
 import CampoFoto from "../../components/admin/CampoFoto";
+import Confirmar from "../../components/admin/Confirmar";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useConfirmar } from "../../hooks/useConfirmar";
 import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
 import { useNuevoDesdeEnlace } from "../../hooks/useNuevoDesdeEnlace";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { ofertas as tablaOfertas } from "../../supabase/consultas";
 import { COLORES_OFERTA } from "../../utils/constantes";
-import { porcentajeDescuento, precioTexto } from "../../utils/formato";
+import { coincide, porcentajeDescuento, precioTexto } from "../../utils/formato";
 import { diaEnTexto, hoyEnTexto, ofertaVigente } from "../../utils/fechas";
 import { validarOferta } from "../../utils/validar";
 
@@ -104,7 +107,19 @@ export default function Ofertas() {
   useTituloPagina("Ofertas");
   const lista = useListaAdmin(tablaOfertas);
   const [editando, setEditando] = useState(null);
+  const [buscar, setBuscar] = useState("");
+  const { confirmar, ventana } = useConfirmar();
   useNuevoDesdeEnlace(setEditando, VACIO); // ?nuevo=1 abre el formulario vacío
+
+  const visibles = lista.filas.filter((o) => coincide(o.nombre, buscar));
+
+  async function confirmarBorrar(oferta) {
+    const si = await confirmar({
+      titulo: `¿Borrar la oferta «${oferta.nombre}»?`,
+      texto: "No se puede deshacer. Si solo quieres que no se vea, tócale el ojo para esconderla.",
+    });
+    if (si) lista.borrar(oferta.id);
+  }
 
   return (
     <>
@@ -119,16 +134,17 @@ export default function Ofertas() {
       </div>
       <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
       <div className="admin-caja">
+        <Buscador valor={buscar} alCambiar={setBuscar} texto="Buscar oferta por nombre..." />
         {lista.cargando ? (
           <Cargando />
-        ) : lista.filas.length === 0 ? (
-          <p className="text-secondary mb-0">No hay ofertas.</p>
+        ) : visibles.length === 0 ? (
+          <p className="text-secondary mb-0">{buscar.trim() ? `No hay ofertas que coincidan con «${buscar.trim()}».` : "No hay ofertas."}</p>
         ) : (
-          lista.filas.map((oferta, indice) => (
+          visibles.map((oferta, indice) => (
             <FilaAdmin
               indice={indice}
-              total={lista.filas.length}
-              alMover={lista.mover}
+              total={visibles.length}
+              alMover={buscar.trim() ? undefined : lista.mover /* al buscar no se ordena */}
               key={oferta.id}
               foto={oferta.foto_ruta}
               titulo={oferta.nombre}
@@ -136,7 +152,7 @@ export default function Ofertas() {
               publicado={oferta.publicado}
               alPublicar={() => lista.cambiarPublicado(oferta)}
               alEditar={() => setEditando({ ...oferta, descripcion: oferta.descripcion ?? "", termina_el: oferta.termina_el ?? "" })}
-              alBorrar={() => window.confirm(`¿Borrar la oferta "${oferta.nombre}"?`) && lista.borrar(oferta.id)}
+              alBorrar={() => confirmarBorrar(oferta)}
             />
           ))
         )}
@@ -144,11 +160,11 @@ export default function Ofertas() {
       {editando && (
         <Ventana titulo="Oferta" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario inicial={editando} alGuardar={(datos) => lista.guardar(datos, editando.id)} alCancelar={() => setEditando(null)} />
           </div>
         </Ventana>
       )}
+      <Confirmar {...ventana} />
     </>
   );
 }

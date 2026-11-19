@@ -10,12 +10,16 @@
 // =========================================================
 import { useCallback, useEffect, useState } from "react";
 import Aviso from "../../components/admin/Aviso";
+import Buscador from "../../components/admin/Buscador";
+import Confirmar from "../../components/admin/Confirmar";
 import Cargando from "../../components/comunes/Cargando";
 import Foto from "../../components/comunes/Foto";
+import { useConfirmar } from "../../hooks/useConfirmar";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { borrarFoto, crearMiniaturasQueFaltan, listarFotos, subirFotoConSuNombre } from "../../supabase/fotos";
 import { TIPOS_FOTO } from "../../utils/constantes";
 import { mensajeDeError } from "../../utils/errores";
+import { coincide } from "../../utils/formato";
 
 export default function Fotos() {
   useTituloPagina("Fotos");
@@ -23,6 +27,10 @@ export default function Fotos() {
   const [cargando, setCargando] = useState(true);
   const [progreso, setProgreso] = useState(null); // { hechas, total }
   const [aviso, setAviso] = useState(null);
+  const [buscar, setBuscar] = useState("");
+  const { confirmar, ventana } = useConfirmar();
+  const cerrarAviso = useCallback(() => setAviso(null), []); // siempre la misma (el verde se cierra a los 4 s justos)
+  const visibles = fotos.filter((f) => coincide(f.nombre, buscar));
 
   const cargar = useCallback(async () => {
     setCargando(true);
@@ -88,7 +96,11 @@ export default function Fotos() {
   }
 
   async function quitar(foto) {
-    if (!window.confirm(`¿Borrar "${foto.nombre}"? Si un producto la usa, se verá el logo en su lugar.`)) return;
+    const si = await confirmar({
+      titulo: `¿Borrar la foto «${foto.nombre}»?`,
+      texto: "No se puede deshacer. Si un producto la usa, se verá el logo en su lugar.",
+    });
+    if (!si) return;
     try {
       await borrarFoto(foto.ruta);
       setAviso({ tipo: "ok", texto: "Foto borrada." });
@@ -133,16 +145,19 @@ export default function Fotos() {
           </label>
         </div>
       </div>
-      <Aviso aviso={aviso} alCerrar={() => setAviso(null)} />
+      <Aviso aviso={aviso} alCerrar={cerrarAviso} />
 
       <div className="admin-caja">
+        <Buscador valor={buscar} alCambiar={setBuscar} texto="Buscar foto por nombre..." />
         {cargando ? (
           <Cargando />
         ) : fotos.length === 0 ? (
           <p className="text-secondary mb-0">Aún no hay fotos. Sube las fotos de la carpeta img/productos.</p>
+        ) : visibles.length === 0 ? (
+          <p className="text-secondary mb-0">No hay fotos que coincidan con «{buscar.trim()}».</p>
         ) : (
           <div className="rejilla-fotos">
-            {fotos.map((foto) => (
+            {visibles.map((foto) => (
               <figure key={foto.ruta}>
                 <Foto ruta={foto.ruta} alt={foto.nombre} miniatura />
                 <figcaption className="d-flex align-items-start justify-content-between gap-1">
@@ -165,6 +180,7 @@ export default function Fotos() {
           </div>
         )}
       </div>
+      <Confirmar {...ventana} />
     </>
   );
 }

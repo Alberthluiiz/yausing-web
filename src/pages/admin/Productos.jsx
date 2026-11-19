@@ -4,7 +4,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Aviso from "../../components/admin/Aviso";
 import BotonesFormulario from "../../components/admin/BotonesFormulario";
+import Buscador from "../../components/admin/Buscador";
 import Campo from "../../components/admin/Campo";
+import Confirmar from "../../components/admin/Confirmar";
 import CampoFoto from "../../components/admin/CampoFoto";
 import FilaAdmin from "../../components/admin/FilaAdmin";
 import Interruptor from "../../components/admin/Interruptor";
@@ -12,12 +14,13 @@ import SelectorColores from "../../components/admin/SelectorColores";
 import SelectorTallas from "../../components/admin/SelectorTallas";
 import Cargando from "../../components/comunes/Cargando";
 import Ventana from "../../components/comunes/Ventana";
+import { useConfirmar } from "../../hooks/useConfirmar";
 import { useFormulario } from "../../hooks/useFormulario";
 import { useListaAdmin } from "../../hooks/useListaAdmin";
 import { useNuevoDesdeEnlace } from "../../hooks/useNuevoDesdeEnlace";
 import { useTituloPagina } from "../../hooks/useTituloPagina";
 import { categorias as tablaCategorias, productos as tablaProductos } from "../../supabase/consultas";
-import { precioTexto } from "../../utils/formato";
+import { coincide, precioTexto } from "../../utils/formato";
 import { precioDesde, precioVariable } from "../../utils/tallas";
 import { validarProducto } from "../../utils/validar";
 
@@ -116,6 +119,7 @@ export default function Productos() {
   const [categorias, setCategorias] = useState([]);
   const [editando, setEditando] = useState(null); // producto abierto en el formulario
   const [buscar, setBuscar] = useState("");
+  const { confirmar, ventana } = useConfirmar();
   useNuevoDesdeEnlace(setEditando, VACIO); // ?nuevo=1 (desde el inicio del panel) abre el formulario vacío
 
   useEffect(() => {
@@ -123,7 +127,7 @@ export default function Productos() {
   }, []);
 
   const nombreCategoria = useMemo(() => Object.fromEntries(categorias.map((c) => [c.id, c.nombre])), [categorias]);
-  const visibles = lista.filas.filter((p) => p.nombre.toLowerCase().includes(buscar.trim().toLowerCase()));
+  const visibles = lista.filas.filter((p) => coincide(p.nombre, buscar));
 
   function abrirEditar(producto) {
     setEditando({
@@ -134,10 +138,12 @@ export default function Productos() {
     });
   }
 
-  function confirmarBorrar(producto) {
-    if (window.confirm(`¿Seguro que quieres borrar "${producto.nombre}"? No se puede deshacer.`)) {
-      lista.borrar(producto.id);
-    }
+  async function confirmarBorrar(producto) {
+    const si = await confirmar({
+      titulo: `¿Borrar «${producto.nombre}»?`,
+      texto: "No se puede deshacer. Si solo quieres que no se vea, mejor tócale el ojo para esconderlo.",
+    });
+    if (si) lista.borrar(producto.id);
   }
 
   return (
@@ -155,18 +161,11 @@ export default function Productos() {
       <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />
 
       <div className="admin-caja">
-        <input
-          type="search"
-          className="form-control mb-3"
-          placeholder="Buscar por nombre..."
-          value={buscar}
-          onChange={(e) => setBuscar(e.target.value)}
-          aria-label="Buscar producto"
-        />
+        <Buscador valor={buscar} alCambiar={setBuscar} texto="Buscar producto por nombre..." />
         {lista.cargando ? (
           <Cargando />
         ) : visibles.length === 0 ? (
-          <p className="text-secondary mb-0">No hay productos.</p>
+          <p className="text-secondary mb-0">{buscar.trim() ? `No hay productos que coincidan con «${buscar.trim()}».` : "No hay productos."}</p>
         ) : (
           visibles.map((producto, indice) => (
             <FilaAdmin
@@ -201,7 +200,6 @@ export default function Productos() {
       {editando && (
         <Ventana titulo="Producto" alCerrar={() => setEditando(null)}>
           <div className="p-2">
-            {lista.aviso?.tipo === "error" && <Aviso aviso={lista.aviso} alCerrar={lista.cerrarAviso} />}
             <Formulario
               inicial={editando}
               categorias={categorias}
@@ -211,6 +209,7 @@ export default function Productos() {
           </div>
         </Ventana>
       )}
+      <Confirmar {...ventana} />
     </>
   );
 }
