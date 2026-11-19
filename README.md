@@ -40,23 +40,24 @@ yausig-churikuna-react/
 ├── public/               ← favicon y robots.txt (se copian tal cual)
 ├── supabase/sql/         ← el SQL de las tablas y reglas (para leer, ya está aplicado)
 ├── docs/                 ← auditoría de seguridad y respuestas de WhatsApp
+├── diseno/               ← archivos originales de diseño (no se usan en la web)
 └── src/
     ├── main.jsx          ← arranque: carga estilos y la App
     ├── App.jsx           ← une la sesión con las rutas
-    ├── assets/img/       ← logos SVG
+    ├── assets/img/       ← logos e ícono que usa la web
     ├── components/
     │   ├── comunes/      ← piezas que usan las dos partes (Foto, Precio, Ventana...)
     │   ├── publico/      ← cada sección de la web (Menu, Portada, Productos, Ofertas...)
-    │   └── admin/        ← piezas del panel (Campo, CampoFoto, FilaAdmin, LayoutAdmin...)
+    │   └── admin/        ← piezas del panel (Campo, CampoFoto, FilaAdmin, BotonesFormulario, LayoutAdmin...)
     ├── context/          ← datos compartidos: sesión (SesionContext) y tienda (TiendaContext)
-    ├── hooks/            ← funciones reutilizables (useSesion, useAparecer, useLimiteIntentos...)
+    ├── hooks/            ← funciones reutilizables (useSesion, useListaAdmin, useFormulario, useLimiteIntentos...)
     ├── pages/
     │   ├── publico/      ← Inicio (la tienda) y NoEncontrada (404)
-    │   └── admin/        ← Login, Panel, Productos, Ofertas, Galeria, Categorias, Fotos, Tienda
+    │   └── admin/        ← Login, Panel, Productos, Ofertas, Galeria, Categorias, Fotos, Tienda, Seguridad
     ├── routes/           ← AppRouter (todas las direcciones) y RutaProtegida (puerta del panel)
     ├── store/            ← pedidoStore: la bolsita "Mi pedido"
     ├── styles/           ← CSS: variables, base, publico/*.css, admin/admin.css
-    ├── supabase/         ← conexión (cliente.js), consultas, fotos y login (auth.js)
+    ├── supabase/         ← TODO lo que habla con Supabase: conexión (cliente.js), consultas, fotos, login y código del celular (auth.js)
     └── utils/            ← whatsapp.js (TEXTOS de los mensajes), validar, seguridad, formato...
 ```
 
